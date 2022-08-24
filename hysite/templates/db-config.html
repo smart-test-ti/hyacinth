@@ -1,0 +1,39 @@
+{% extends 'start-base.html' %}
+
+{% block title %}配置MYSQL - 风信子{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <img src="/static/image/logo/logo.png" height="100"  alt="">
+</div>
+<form class="card card-md" autocomplete="off">
+    <div class="card-body">
+        <h2 class="card-title text-center mb-3">MYSQL配置</h2>
+        <div class="text-center text-muted mb-1"><a class="active" style="cursor: pointer">配置前须知</a></div>
+        <div class="input-group mb-2">
+                    <span class="input-group-text">
+                        主机
+                    </span>
+                    <input type="text" class="form-control"  placeholder="请输入主机IP"  autocomplete="off">
+                </div>
+        <div class="input-group mb-2">
+            <span class="input-group-text">
+                端口
+            </span>
+            <input type="text" class="form-control"  placeholder="请输入端口"  autocomplete="off">
+        </div>
+        <div class="input-group mb-2">
+            <span class="input-group-text">用户</span>
+            <input type="text" class="form-control"  placeholder="请输入MYSQL用户"  autocomplete="off">
+        </div>
+        <div class="input-group mb-2">
+            <span class="input-group-text">密码</span>
+            <input type="password" class="form-control"  placeholder="请输入密码"  autocomplete="off">
+        </div>
+        <div class="form-footer">
+            <button type="submit" class="btn btn-primary w-100">初始化</button>
+        </div>
+    </div>
+</form>
+<div class="text-center text-muted mt-3"><a class="active" style="cursor: pointer">返回上一页</a></div>
+{% endblock %}

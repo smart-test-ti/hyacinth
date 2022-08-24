@@ -1,0 +1,92 @@
+<!doctype html>
+<!--
+* Hyacinth - Premium and Open Source Application package security hosting platform
+* @version 1.0.0
+* Copyright 2022 The Hyacinth Authors
+* Licensed under MIT (https://github.com/)
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>数据库选择 - 风信子</title>
+    <!-- CSS files -->
+    <link rel="icon" href="/static/logo/logo.png">
+    <link rel="stylesheet" href="/static/css/tabler.min.css">
+    <link rel="stylesheet" href="/static/css/tabler.demo.min.css" />
+    <!-- Select2-->
+    <link rel="stylesheet" href="/static/css/select2.min.css" />
+    <link rel="stylesheet" href="/static/css/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="/static/css/select2-bootstrap-5-theme.rtl.min.css" />
+     <!-- Sweetalert2-->
+    <link rel="stylesheet" href="/static/css/sweetalert2.min.css" />
+    <!--highlight-->
+    <link rel="stylesheet" href="/static/css/highlight.min.css">
+  </head>
+<body >
+<div class="page page-center" >
+    <div class="container-tight">
+        <div class="text-center mb-4">
+            <img src="/static/logo/logo.png" height="100"  alt="">
+        </div>
+        <form class="card card-md" autocomplete="off">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">请选择数据库</h2>
+                <div class="mb-3">
+                    <div class="form-selectgroup form-selectgroup-boxes d-flex flex-column">
+                      <label class="form-selectgroup-item flex-fill">
+                        <input type="radio" name="form-payment" value="visa" class="form-selectgroup-input" checked>
+                        <div class="form-selectgroup-label d-flex align-items-center p-3">
+                          <div class="me-3">
+                            <span class="form-selectgroup-check"></span>
+                          </div>
+                          <div>
+                            <svg t="1661247337475" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1614" width="50" height="50"><path d="M884.736 22.528c-44.032-38.912-97.28-23.552-149.504 23.552-8.192 7.168-15.36 14.336-23.552 22.528-12.288 13.312-24.576 27.648-35.84 43.008-12.288-5.12-25.6-8.192-39.936-8.192H199.68c-57.344 0-104.448 47.104-104.448 104.448v436.224c0 57.344 47.104 104.448 104.448 104.448h307.2c4.096 20.48 6.144 34.816 6.144 34.816s0 4.096 1.024 9.216c-2.048 38.912-1.024 79.872 2.048 116.736 4.096 49.152 11.264 91.136 21.504 113.664l6.144-3.072c-14.336-44.032-20.48-102.4-17.408-168.96 4.096-102.4 27.648-225.28 70.656-354.304 73.728-194.56 175.104-350.208 269.312-423.936-86.016 76.8-200.704 325.632-235.52 417.792-38.912 103.424-65.536 199.68-82.944 292.864 28.672-87.04 120.832-123.904 120.832-123.904s45.056-55.296 98.304-135.168c-31.744 7.168-82.944 19.456-100.352 26.624-25.6 11.264-32.768 14.336-32.768 14.336S716.8 515.072 788.48 491.52c96.256-154.624 203.776-373.76 96.256-468.992zM512 475.136c10.24 20.48 18.432 47.104 23.552 66.56 1.024 5.12 2.048 10.24 3.072 14.336 2.048 9.216 3.072 16.384 3.072 16.384l-4.096-12.288c-1.024-2.048-1.024-4.096-2.048-6.144 0-1.024-1.024-2.048-1.024-3.072-6.144-13.312-22.528-41.984-29.696-55.296-6.144 18.432-11.264 34.816-16.384 50.176 20.48 37.888 32.768 102.4 32.768 102.4s-1.024-4.096-6.144-18.432c-4.096-13.312-27.648-53.248-32.768-62.464-9.216 33.792-13.312 57.344-9.216 63.488 5.12 8.192 9.216 21.504 14.336 35.84H199.68c-11.264 0-21.504-9.216-21.504-21.504V207.872c0-11.264 9.216-21.504 21.504-21.504H624.64c-53.248 91.136-95.232 199.68-112.64 288.768z" fill="#00CCFF" p-id="1615"></path></svg>
+                            SQLite <strong style="font-size: 10px;color:#a1a1a1;margin-left: 5px">平台自带</strong>
+                          </div>
+                        </div>
+                      </label>
+                      <label class="form-selectgroup-item flex-fill">
+                        <input type="radio" name="form-payment" value="visa" class="form-selectgroup-input">
+                        <div class="form-selectgroup-label d-flex align-items-center p-3">
+                          <div class="me-3">
+                            <span class="form-selectgroup-check"></span>
+                          </div>
+                          <div>
+                            <svg t="1661247401636" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2390" width="50" height="50"><path d="M915.2 844.8l-6.4-8.533333c-6.4-10.666667-12.8-19.2-21.333333-27.733334-6.4-6.4-21.333333-14.933333-23.466667-23.466666 6.4 0 10.666667 0 14.933333-2.133334 8.533333-2.133333 14.933333 0 23.466667-2.133333 4.266667 0 6.4-2.133333 10.666667-2.133333v-2.133334c-4.266667-4.266667-6.4-10.666667-10.666667-14.933333-10.666667-12.8-21.333333-23.466667-34.133333-34.133333-6.4-6.4-14.933333-10.666667-21.333334-14.933334-2.133333-2.133333-6.4-2.133333-8.533333-6.4-2.133333-6.4-6.4-12.8-6.4-19.2-4.266667-14.933333-10.666667-29.866667-14.933333-44.8-2.133333-10.666667-4.266667-19.2-8.533334-29.866666-17.066667-40.533333-42.666667-74.666667-78.933333-100.266667-8.533333-6.4-17.066667-10.666667-27.733333-12.8-6.4 0-10.666667-2.133333-17.066667-2.133333-4.266667-2.133333-6.4-6.4-8.533333-8.533334-10.666667-8.533333-23.466667-14.933333-36.266667-19.2-8.533333-2.133333-17.066667 2.133333-19.2 10.666667-8.533333 14.933333 6.4 32 10.666667 40.533333 4.266667 6.4 6.4 12.8 8.533333 19.2 2.133333 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 10.666667 4.266667 23.466667 8.533334 34.133334 2.133333 6.4 4.266667 10.666667 6.4 14.933333 2.133333 2.133333 4.266667 6.4 4.266666 8.533333-2.133333 6.4-6.4 10.666667-6.4 17.066667-10.666667 25.6-10.666667 55.466667-2.133333 83.2 2.133333 6.4 10.666667 21.333333 21.333333 17.066667 10.666667-4.266667 10.666667-17.066667 14.933334-29.866667 0-2.133333 2.133333-4.266667 2.133333-6.4 2.133333 6.4 4.266667 14.933333 6.4 21.333333 6.4 12.8 14.933333 25.6 25.6 36.266667 4.266667 6.4 10.666667 10.666667 14.933333 17.066667 10.666667 8.533333 4.266667 10.666667 83.2 49.066666 0 0 32 14.933333 46.933334 21.333334 14.933333 6.4 29.866667 10.666667 44.8 14.933333 2.133333 0 2.133333-4.266667 2.133333-6.4zM693.333333 550.4c-2.133333-8.533333-6.4-19.2-10.666666-25.6-6.4-6.4 2.133333-12.8 10.666666-10.666667h2.133334c4.266667 0 6.4 4.266667 8.533333 6.4 0 2.133333 2.133333 2.133333 2.133333 4.266667 2.133333 10.666667-2.133333 23.466667-12.8 25.6z" p-id="2391" fill="#8b5e1c"></path><path d="M46.933333 290.133333a371.2 119.466667 0 1 0 742.4 0 371.2 119.466667 0 1 0-742.4 0Z" p-id="2392" fill="#8b5e1c"></path><path d="M678.4 793.6h-6.4c-14.933333 0-53.333333-6.4-76.8-55.466667v-4.266666c-6.4-17.066667-10.666667-36.266667-10.666667-55.466667-49.066667 8.533333-106.666667 12.8-166.4 12.8-164.266667 0-302.933333-34.133333-352-81.066667-8.533333-6.4-19.2-2.133333-19.2 8.533334v113.066666c0 66.133333 166.4 119.466667 371.2 119.466667 110.933333 0 211.2-14.933333 277.333334-40.533333-6.4-4.266667-10.666667-10.666667-17.066667-17.066667zM418.133333 631.466667c64 0 123.733333-4.266667 174.933334-14.933334v-2.133333c0-2.133333-2.133333-4.266667-2.133334-6.4-4.266667-12.8-6.4-25.6-10.666666-40.533333 0-2.133333-2.133333-6.4-2.133334-8.533334 0-2.133333-2.133333-2.133333-2.133333-4.266666v-4.266667l-2.133333-2.133333c-6.4-12.8-27.733333-46.933333-14.933334-87.466667-44.8 6.4-91.733333 8.533333-142.933333 8.533333-164.266667 0-302.933333-34.133333-352-81.066666-8.533333-6.4-19.2-2.133333-19.2 8.533333V512c0 66.133333 166.4 119.466667 373.333333 119.466667z" p-id="2393" fill="#8b5e1c"></path></svg>
+                            MYSQL <strong style="font-size: 10px;color: #0a833d;margin-left: 5px">推荐</strong>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary w-100">确认选择</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- JQ JS -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- tabler -->
+<script src="/static/js/tabler.min.js"></script>
+<script src="/static/js/tabler.demo.min.js"></script>
+<!-- Sweetalert2 -->
+<script src="/static/js/sweetalert2.min.js"></script>
+<!-- Select2-->
+<script src="/static/js/select2.min.js"></script>
+<!-- Apexcharts-->
+<script src="/static/js/apexcharts.js"></script>
+<!-- highlight -->
+<script src="/static/js/highlight.min.js"></script>
+<!-- Highcharts-->
+<script src="https://cdn.highcharts.com.cn/highstock/highstock.js"></script>
+<script src="https://code.highcharts.com.cn/highcharts/themes/gray.js"></script>
+<!-- html2canvas -->
+<script src="/static/js/html2canvas.min.js"></script>
+<script src="/static/js/socket.io.js"></script>
+
+</body>
+</html>
