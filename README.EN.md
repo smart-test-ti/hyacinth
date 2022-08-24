@@ -8,4 +8,4 @@
 <br>
 
 # Hyacinth
-风信子是一个开源、免费的应用包安全托管平台，支持APP包存储、病毒扫描、安全加固等功能。
+Hyacinth is an open source, free app package security hosting platform,it supports for storing app packages, virus scanning, security hardening and other functions.
