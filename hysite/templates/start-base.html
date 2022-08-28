@@ -1,37 +1,19 @@
+{% extends 'base.html' %}
 {% load static %}
-
-<!doctype html>
-<!--
-* Hyacinth - Premium and Open Source Application package security hosting platform
-* @version 1.0.0
-* Copyright 2022 by Rafa Chen
-* Licensed under MIT (https://github.com/)
--->
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>{% block title %}{% endblock %}</title>
-    <!-- CSS files -->
-    <link rel="icon" href="/static/image/logo/logo.png">
-    <link rel="stylesheet" href="/static/css/tabler.min.css">
-    <link rel="stylesheet" href="/static/css/tabler.demo.min.css" />
-    {% block style %}{% endblock %}
-  </head>
-<body >
+{% block body %}
 <div class="page page-center" >
     <div class="container-tight">
         {% block content %}{% endblock %}
+        <footer class="footer footer-transparent text-center">
+            <ul class="list-inline list-inline-dots mb-0">
+                <li class="list-inline-item">
+                    Copyright &copy; 2022
+                    <a href="." class="link-secondary">风信子</a>.
+                    All rights reserved.
+                </li>
+            </ul>
+        </footer>
     </div>
+
 </div>
-<!-- JQ JS -->
-<script src="/static/js/jquery.min.js"></script>
-<!-- tabler -->
-<script src="/static/js/tabler.min.js"></script>
-<script src="/static/js/tabler.demo.min.js"></script>
-<!-- Sweetalert2 -->
-<script src="/static/js/sweetalert2.min.js"></script>
-{% block script %}{% endblock %}
-</body>
-</html>
+{% endblock %}

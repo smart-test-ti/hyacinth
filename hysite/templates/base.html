@@ -1,0 +1,108 @@
+{% load static %}
+<!doctype html>
+<!--
+* Hyacinth - Premium and Open Source Application package security hosting platform
+* @version 1.0.0
+* Copyright 2022 by Rafa Chen
+* Licensed under MIT (https://github.com/)
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>{% block title %}{% endblock %}</title>
+    <!-- CSS files -->
+    <link rel="icon" href="/static/image/logo/logo.png">
+    <link rel="stylesheet" href="/static/css/tabler.min.css">
+    <link rel="stylesheet" href="/static/css/tabler.demo.min.css" />
+    <!-- Spop -->
+    <link href="/static/css/spop.css" rel="stylesheet">
+    <!-- Daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    {% block style %}{% endblock %}
+</head>
+
+<body class="antialiased">
+{% block body %}{% endblock %}
+<!-- JQ JS -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- tabler -->
+<script src="/static/js/tabler.min.js"></script>
+<script src="/static/js/tabler.demo.min.js"></script>
+<!-- Sweetalert2 -->
+<script src="/static/js/sweetalert2.min.js"></script>
+<!-- Qrode -->
+<script src="/static/js/qrcode.min.js"></script>
+<!-- Select2 -->
+<script src="/static/js/select2.min.js"></script>
+<!-- Spop -->
+<script src="/static/js/spop.js"></script>
+<!-- Loading -->
+<script src="/static/js/loading.js"></script>
+<!-- Daterangepicker -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<!-- DateFormat -->
+<script src="/static/js/date-format.js"></script>
+<script>
+/**
+ * toast样式
+ */
+
+const SPOP_TYPE={
+	error:'error',
+	success:'success',
+	warning:'warning'
+};
+
+function Spop(type,msg){
+    spop({
+        template: msg,
+		position  : 'top-center',
+		style: type,
+		autoclose: 2000
+	});
+};
+
+/**
+ * loading效果
+ */
+const LOAGDING_TYPE={
+	small:120,
+    normal:170
+};
+
+function loading(action='body',title=null,type=LOAGDING_TYPE.small) {
+    $(action).loading({
+        loadingWidth:type,
+        title:title,
+        name:'test',
+        discription:'',
+        direction:'column',
+        type:'origin',
+        originBg:'white',
+        originDivWidth:40,
+        originDivHeight:40,
+        originWidth:5,
+        originHeight:5,
+        smallLoading:true,
+        loadingMaskBg:'transparent'
+    });
+};
+
+$(document).ready(function() {
+    $('.select2-selection--single').select2({
+        theme: "bootstrap-5",
+        containerCssClass: "select2--small",
+        selectionCssClass: "select2--small",
+        dropdownCssClass: "select2--small",
+    });
+    $('.js-example-basic-multiple').select2({
+        theme: "bootstrap-5"
+    });
+});
+</script>
+
+{% block script %}{% endblock %}
+</body>

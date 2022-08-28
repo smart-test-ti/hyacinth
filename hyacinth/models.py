@@ -26,7 +26,7 @@ class user(models.Model):
     password = models.CharField(max_length=64)
     nickname = models.CharField(max_length=64)
     avatar = models.TextField(null=True)
-    role = models.TextField(default='普通用户')
+    user_type = models.TextField(default='member')
     mobile = models.TextField(null=True)
     token = models.TextField(null=True)
     ctime = models.DateTimeField(default=timezone.now)
@@ -34,28 +34,3 @@ class user(models.Model):
     def __str__(self):
         return ' %s' % ( self.username)
 
-
-
-class package_info(models.Model):
-    """package info table"""
-    id = models.AutoField(primary_key=True)
-    pkgname = models.CharField(max_length=64)
-    icon = models.TextField(null=True)
-    newest_version = models.TextField(null=True)
-    ctime = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return ' %s' % ( self.pkgname)
-
-class package_list(models.Model):
-    """package list table"""
-    id = models.AutoField(primary_key=True)
-    pkgname = models.CharField(max_length=64)
-    version = models.CharField(max_length=64)
-    platform = models.CharField(max_length=64)
-    filename = models.CharField(max_length=64)
-    is_share = models.IntegerField(default=0)
-    ctime = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return ' %s' % ( self.pkgname)

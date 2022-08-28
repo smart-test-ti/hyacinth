@@ -1,0 +1,87 @@
+{% extends 'site-base.html' %}
+{% load static %}
+{% block title %}APP包管理 - 风信子{% endblock %}
+{% block page_title %}APP包管理{% endblock %}
+
+{% block ms-auto %}
+<div class="btn-list">
+    <a href="#" class="btn btn-teal d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        新应用
+    </a>
+    <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+    </a>
+</div>
+{% endblock %}
+
+{% block page_body %}
+<div class="row row-deck row-cards">
+    <div class="col-12">
+        <div class="row row-cards">
+            <div class="col-md-6 col-lg-3">
+                <a class="card card-link" href="#">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-auto">
+                                <span class="avatar" style="background-image: url(/static/image/douyin.png)"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium" style="font-weight: bolder">抖音</div>
+                                <div class="text-muted">最新版本: v10.10.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a class="card card-link" href="#">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-auto">
+                                <span class="avatar" style="background-image: url(/static/image/bilibili.png)"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium" style="font-weight: bolder">Bilibili</div>
+                                <div class="text-muted">最新版本: v10.10.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a class="card card-link" href="#">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-auto">
+                                <span class="avatar" style="background-image: url(/static/image/wechat.png)"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-bold" style="font-weight: bolder">微信</div>
+                                <div class="text-muted">最新版本: v10.10.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a class="card card-link" href="#">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-auto">
+                                <span class="avatar" style="background-image: url('/static/image/zhifubao.png')"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium" style="font-weight: bolder">支付宝</div>
+                                <div class="text-muted">最新版本: v10.10.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

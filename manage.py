@@ -2,7 +2,23 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import json
 
+
+def dbInitialize():
+    """db config initialize"""
+    content = {
+        'db_name': 'none',
+        'db_host': 'none',
+        'db_port': 'none',
+        'db_user': 'none',
+        'db_password': 'none'
+    }
+    if not os.path.exists('./hyacinth/config.json'):
+       if not os.path.exists('hyacinth'):
+           os.mkdir('hyacinth')
+       with open('./hyacinth/config.json', 'a+', encoding="utf-8") as file:
+           file.write(json.dumps(content))
 
 def main():
     """Run administrative tasks."""

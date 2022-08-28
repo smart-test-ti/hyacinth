@@ -6,7 +6,7 @@ import traceback
 class Decorators(object):
 
     @classmethod
-    def _check_login(cls,function):
+    def check_login(cls,function):
         """登录检查装饰器"""
         @wraps(function)
         def wrap(request, *arg, **kwargs):
@@ -17,7 +17,7 @@ class Decorators(object):
         return wrap
 
     @classmethod
-    def _fun_log(cls,function):
+    def fun_log(cls,function):
         """记录日志装饰器"""
         @wraps(function)
         def wrap(request,*arg, **kwargs):
@@ -27,7 +27,7 @@ class Decorators(object):
         return wrap
 
     @classmethod
-    def _catch_except(cls,function):
+    def catch_except(cls,function):
         """异常跳转装饰器"""
         @wraps(function)
         def wrap(request,*arg, **kwargs):

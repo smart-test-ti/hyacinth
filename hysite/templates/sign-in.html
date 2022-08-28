@@ -6,12 +6,12 @@
 <div class="text-center mb-4">
     <img src="/static/image/logo/logo.png" height="100"  alt="">
 </div>
-<form class="card card-md" autocomplete="off">
+<div class="card card-md">
     <div class="card-body">
         <h2 class="card-title text-center mb-4">欢迎登陆风信子平台</h2>
         <div class="mb-3">
             <label class="form-label">账号</label>
-            <input type="username" class="form-control" placeholder="请输入账号">
+            <input type="username" id="input-username" class="form-control" placeholder="请输入账号">
         </div>
         <div class="mb-2">
             <label class="form-label">密码</label>
@@ -28,10 +28,10 @@
             </div>
         </div>
         <div class="form-footer">
-            <button type="submit" class="btn btn-primary w-100">登陆</button>
+            <button type="button" id="sign-in" onclick="signIn()" onkeypress="signIn()" class="btn btn-primary w-100">登陆</button>
         </div>
     </div>
-</form>
+</div>
 {% endblock %}
 
 
@@ -49,6 +49,32 @@
         $('#input-password').attr("type","password");
         $('.show-password').show();
         $('.hide-password').hide();
+    }
+
+    function signIn() {
+        var account = document.getElementById("input-username").value.trim();
+        var password = document.getElementById("input-password").value.trim();
+        if (account && password) {
+            $.ajax({
+                url: "/login/api/signin",
+                type: "POST",
+                async: false,
+                data: {
+                    username: account,
+                    password: password
+                },
+                success: function (data) {
+                    if (data['status'] == 1) {
+                        window.location.href = "/hysite/apk";
+                    }
+                    else{
+                        Spop(SPOP_TYPE['error'],data['msg']);
+                    }
+                }
+            });
+        } else {
+            Spop(SPOP_TYPE['error'],'帐号或密码不能为空');
+        }
     }
 </script>
 
