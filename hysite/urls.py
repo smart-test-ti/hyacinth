@@ -14,7 +14,7 @@ urlpatterns = [
     path('initialize/db/choose', login.Initialize.dbChoosePage, name='dbChoosePage'),
     path('initialize/db/config', login.Initialize.dbConfigPage, name='dbConfigPage'),
     path('initialize/result', login.Initialize.initializeResultPage, name='initializeResultPage'),
-    path('package/manage/page=<page>', package.Manage.packageInfoPage, name='packageInfoPage'),
+    path('package/home/page=<page>', package.Manage.packageInfoPage, name='packageInfoPage'),
     path('package/list/page=<page>', package.Manage.packageListPage, name='packageListPage'),
 
 ]

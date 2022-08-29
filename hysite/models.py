@@ -29,6 +29,7 @@ class user(models.Model):
     role = models.TextField(default='普通用户')
     mobile = models.TextField(null=True)
     token = models.TextField(null=True)
+    initialized = models.IntegerField(default=0)
     ctime = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

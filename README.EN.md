@@ -8,4 +8,4 @@
 <br>
 
 # Hyacinth
-Hyacinth is an open source, free app package security hosting platform,it supports for storing app packages, virus scanning, security hardening and other functions.
+Hyacinth is a lightweight, free APP package security hosting platform, and supports virus scanning, security reinforcement and other functions.

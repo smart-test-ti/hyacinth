@@ -81,8 +81,11 @@ class Initialize():
     def initializeResultPage(cls, request):
         """初始化结果页"""
         count = models.user.objects.filter(username='hyacinth', password='CjOQ2ME7Rilash66').count()
-        if count == 0:
-            return redirect('/login/signin')
+        if count > 0:
+            initialized = models.user.objects.filter(username='hyacinth').values("initialized").last()['initialized']
+            if initialized == 1:
+                return redirect('/login/signin')
         if request.path == '/':
             return redirect('/initialize/result')
+        models.user.objects.filter(username='hyacinth').update(initialized=1)
         return render(request, 'db-result.html', locals())
