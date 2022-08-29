@@ -1,9 +1,9 @@
 <p align="center">
-  <a>中文</a> | <a href="./README.zh.md">English</a>
+  <a>中文</a> | <a href="./README.EN.md">English</a>
 </p>
 
 <p align="center">
-<a><img src="./static/image/readme/logo.png" alt="Hyacinth" width="300"></a>
+<a><img src="./static/image/readme/logo.png" alt="Hyacinth" width="200"></a>
 <br>
 <br>
 

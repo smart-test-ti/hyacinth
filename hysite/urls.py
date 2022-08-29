@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.urls import path
-from hysite.views import login, package
+from hysite.views import login, package, user
 
 
 app_name = 'hysite'
@@ -16,5 +16,6 @@ urlpatterns = [
     path('initialize/result', login.Initialize.initializeResultPage, name='initializeResultPage'),
     path('package/home/page=<page>', package.Manage.packageInfoPage, name='packageInfoPage'),
     path('package/list/page=<page>', package.Manage.packageListPage, name='packageListPage'),
+    path('user/list/page=<page>', user.User.userPage, name='userPage'),
 
 ]

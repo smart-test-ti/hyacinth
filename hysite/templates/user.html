@@ -1,0 +1,64 @@
+{% extends 'site-base.html' %}
+{% load static %}
+{% block title %}管理用户 - 风信子{% endblock %}
+{% block page_title %}管理用户{% endblock %}
+
+{% block ms-auto %}
+<div class="btn-list">
+    <a href="#" class="btn btn-teal d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        新用户
+    </a>
+    <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+    </a>
+</div>
+{% endblock %}
+
+{% block page_body %}
+<div class="card">
+    <div class="table-responsive" style="font-size: 15px;">
+        <table id="file_table" class="table card-table table-vcenter text-nowrap datatable">
+            <thead>
+            <tr>
+                <th style="font-size: 13px;">用户名</th>
+                <th style="font-size: 13px;">密码</th>
+                <th style="font-size: 13px;">昵称</th>
+                <th style="font-size: 13px;">角色</th>
+                <th style="font-size: 13px;">加入时间</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.nickname }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.ctime }}</td>
+                <td>
+                    <div class="btn-list flex-nowrap">
+                        <a href="/analysis?app={{ apm.app }}&scene={{ apm.scene }}&platform={{ apm.platform }}" class="btn btn-default">
+                            <svg t="1661773136608" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4840" width="2000" height="2000"><path d="M527.503039 0l426.567846 155.61195c16.209578 4.990844 27.172372 20.048689 27.044401 37.026089v287.720011c0 342.278039-372.820297 492.643204-464.105816 539.352384a37.836568 37.836568 0 0 1-33.997457 0C391.51321 973.001255 42.666027 824.257047 42.666027 482.448233V193.661802a39.628153 39.628153 0 0 1 26.233922-36.940776L501.525058 0h25.977981zM511.890656 255.940707a127.970354 127.970354 0 0 0-42.059589 248.859681c-0.426568 2.303466-0.597195 4.692246-0.597195 7.081026v213.283923a42.656785 42.656785 0 0 0 85.313569 0v-213.283923a37.495314 37.495314 0 0 0-0.639852-7.038369A128.01301 128.01301 0 0 0 511.890656 255.940707z" fill="#008df0" p-id="4841"></path></svg>
+                            应用权限
+                        </a>
+                        <a onclick="edit_report_data('{{ apm.scene }}')" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modal-edit">
+                            <svg t="1638686685621" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7671" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#5866C7" p-id="7672"></path><path d="M466.304 192l-0.064 64H320a64 64 0 0 0-63.552 56.512L256 320v384a64 64 0 0 0 56.512 63.552L320 768h384a64 64 0 0 0 63.552-56.512L768 704V557.696h64v-239.36V704a128 128 0 0 1-128 128H320a128 128 0 0 1-128-128V320a128 128 0 0 1 128-128h146.304z" fill="#FFFFFF" p-id="7673"></path><path d="M788.992 267.008a32 32 0 0 1 0 45.248l-316.8 316.8a32 32 0 0 1-45.184-45.312l316.8-316.8a32 32 0 0 1 45.184 0z" fill="#FFFFFF" p-id="7674"></path></svg>
+                            编辑
+                        </a>
+                        <a onclick="remove_report_data('{{ apm.scene }}')" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modal-danger">
+                            <svg t="1635400029781" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17941" width="200" height="200"><path d="M877.79 217.23H624.22c0-36.02-29.2-65.23-65.23-65.23H465c-36.02 0-65.23 29.2-65.23 65.23H146.21c-18.01 0-32.61 14.6-32.61 32.61 0 18.01 14.6 32.61 32.61 32.61h49.75l14.43 528.79c1.06 33.91 25.21 60.76 54.64 60.76h493.93c29.43 0 53.58-26.86 54.64-60.76l14.48-528.79h49.7c18.01 0 32.61-14.6 32.61-32.61 0.01-18.01-14.59-32.61-32.6-32.61zM364.24 748.41c-17.98 0.82-33.4-10.01-34.44-24.19L308 427.56c-1.04-14.18 12.69-26.34 30.67-27.16 17.98-0.82 33.4 10.01 34.45 24.19l21.8 296.67c1.04 14.17-12.7 26.33-30.68 27.15z m180.37-25.42c0 14.2-14.6 25.72-32.61 25.72-18.01 0-32.61-11.51-32.61-25.72V425.83c0-14.2 14.6-25.72 32.61-25.72 18.01 0 32.61 11.51 32.61 25.72v297.16zM716 427.56l-21.8 296.67c-1.04 14.18-16.46 25.01-34.44 24.19-17.98-0.82-31.71-12.98-30.67-27.16l21.8-296.67c1.04-14.18 16.46-25.01 34.44-24.19 17.98 0.82 31.72 12.98 30.67 27.16z" fill="#FF5D5D" p-id="17942"></path></svg>
+                            删除
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+

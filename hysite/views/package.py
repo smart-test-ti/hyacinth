@@ -18,10 +18,11 @@ common = Method()
 class Manage:
 
     @classmethod
-    # @method_decorator(Decorators.check_login)
+    @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def packageInfoPage(cls, request, *arg, **kwargs):
         page = int(kwargs['page'])
+        nickname = request.session['nickname']
         # apks = models.package.objects.all().order_by('-id')
         # apk_num = models.package.objects.all().count()
         # paginator = Paginator(apks, 2)
@@ -29,10 +30,11 @@ class Manage:
         return render(request, 'package.html', locals())
 
     @classmethod
-    # @method_decorator(Decorators.check_login)
+    @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def packageListPage(cls, request, *arg, **kwargs):
         page = int(kwargs['page'])
+        nickname = request.session['nickname']
         # apks = models.package.objects.all().order_by('-id')
         # apk_num = models.package.objects.all().count()
         # paginator = Paginator(apks, 2)
