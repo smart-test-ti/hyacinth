@@ -63,6 +63,7 @@ class Login(View):
     def logoutAPI(cls, request):
         """退出登录接口"""
         auth.logout(request)
+        request.session['is_login'] = '0'
         response = redirect('/login/signin')
         return response
 
