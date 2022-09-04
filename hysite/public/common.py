@@ -1,5 +1,6 @@
 import datetime
 import requests
+import time
 import os
 from hysite import models
 import pymysql
@@ -23,6 +24,11 @@ class Method(object):
             return request.POST.get(object)
         else:
             return request.GET.get(object)
+
+    @classmethod
+    def currentTime(cls):
+        """当前时间"""
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     @classmethod
     def getfileList(cls, file_dir: str):

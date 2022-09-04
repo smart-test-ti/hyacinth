@@ -20,7 +20,8 @@
     <link href="/static/css/spop.css" rel="stylesheet">
     <!-- Daterangepicker -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    {% block style %}{% endblock %}
+    <link href="/static/css/hysite.css" rel="stylesheet">
+    {% block style %} {% endblock %}
 </head>
 
 <body class="antialiased">
@@ -36,6 +37,7 @@
 <script src="/static/js/qrcode.min.js"></script>
 <!-- Select2 -->
 <script src="/static/js/select2.min.js"></script>
+
 <!-- Spop -->
 <script src="/static/js/spop.js"></script>
 <!-- Loading -->
@@ -89,6 +91,15 @@ function loading(action='body',title=null,type=LOAGDING_TYPE.small) {
         smallLoading:true,
         loadingMaskBg:'transparent'
     });
+};
+
+function rute(path,_blank=false) {
+    // 路由跳转
+    if(_blank){
+        window.open(path);
+    }else {
+        window.location.href = path
+    }
 };
 
 $(document).ready(function() {

@@ -14,8 +14,16 @@ urlpatterns = [
     path('initialize/db/choose', login.Initialize.dbChoosePage, name='dbChoosePage'),
     path('initialize/db/config', login.Initialize.dbConfigPage, name='dbConfigPage'),
     path('initialize/result', login.Initialize.initializeResultPage, name='initializeResultPage'),
+
+    # package
     path('package/home/page=<page>', package.Manage.packageInfoPage, name='packageInfoPage'),
     path('package/list/page=<page>', package.Manage.packageListPage, name='packageListPage'),
+
+    # user
     path('user/list/page=<page>', user.User.userPage, name='userPage'),
+    path('user/api/create', user.User.createUserAPI, name='createUserAPI'),
+    path('user/api/info', user.User.getUserAPI, name='getUserAPI'),
+    path('user/api/edit', user.User.editUserAPI, name='editUserAPI'),
+    path('user/api/delete', user.User.deleteUserAPI, name='deleteUserAPI'),
 
 ]

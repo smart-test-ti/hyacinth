@@ -28,6 +28,7 @@ class user(models.Model):
     avatar = models.TextField(null=True)
     role = models.TextField(default='普通用户')
     mobile = models.TextField(null=True)
+    email = models.TextField(null=True)
     token = models.TextField(null=True)
     initialized = models.IntegerField(default=0)
     ctime = models.DateTimeField(default=timezone.now)

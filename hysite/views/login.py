@@ -35,8 +35,7 @@ class Login(View):
         if user:
             request.session['is_login'] = '1'
             request.session['username'] = username
-            nickname = models.user.objects.filter(username=username, password=password).values("nickname").first()[
-                'nickname']
+            nickname = models.user.objects.filter(username=username).values("nickname").first()['nickname']
             request.session['nickname'] = nickname
             result = {'status': 1, 'msg': 'login success'}
         else:
