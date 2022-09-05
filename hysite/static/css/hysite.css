@@ -5,3 +5,9 @@
 .display-block{
     display: block;
 }
+
+.file-link{
+    cursor: pointer;
+    color: #1e87fc;
+    font-weight: bold;
+}

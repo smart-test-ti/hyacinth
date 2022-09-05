@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 import json
 import sys
+import re
 from hysite import models
 from hysite.public.common import Method
 from hysite.public.decorators import Decorators
@@ -48,7 +49,9 @@ class User:
     @method_decorator(Decorators.catch_except)
     def createUserAPI(cls, request):
         username = common._request(request, 'username')
+        username = re.sub(r'[&=\s]', "", username)
         nickname = common._request(request, 'nickname')
+        nickname = re.sub(r'[&=\s]', "", nickname)
         password = common._request(request, 'password')
         role = common._request(request, 'role')
         email = common._request(request, 'email')
@@ -66,7 +69,9 @@ class User:
     @method_decorator(Decorators.catch_except)
     def editUserAPI(cls, request):
         username = common._request(request, 'username')
+        username = re.sub(r'[&=\s]', "", username)
         nickname = common._request(request, 'nickname')
+        nickname = re.sub(r'[&=\s]', "", nickname)
         password = common._request(request, 'password')
         role = common._request(request, 'role')
         try:

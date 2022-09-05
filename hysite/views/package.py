@@ -23,6 +23,8 @@ class Manage:
     def packageInfoPage(cls, request, *arg, **kwargs):
         page = int(kwargs['page'])
         nickname = request.session['nickname']
+        username = request.session['username']
+        role = models.user.objects.filter(username=username).values("role").first()['role']
         # apks = models.package.objects.all().order_by('-id')
         # apk_num = models.package.objects.all().count()
         # paginator = Paginator(apks, 2)
@@ -33,8 +35,11 @@ class Manage:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def packageListPage(cls, request, *arg, **kwargs):
-        page = int(kwargs['page'])
+        package = kwargs['package']
+        version = kwargs['version']
         nickname = request.session['nickname']
+        username = request.session['username']
+        role = models.user.objects.filter(username=username).values("role").first()['role']
         # apks = models.package.objects.all().order_by('-id')
         # apk_num = models.package.objects.all().count()
         # paginator = Paginator(apks, 2)

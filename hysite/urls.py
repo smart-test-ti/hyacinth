@@ -17,7 +17,7 @@ urlpatterns = [
 
     # package
     path('package/home/page=<page>', package.Manage.packageInfoPage, name='packageInfoPage'),
-    path('package/list/page=<page>', package.Manage.packageListPage, name='packageListPage'),
+    path('package/list/package=<package>&version=<version>', package.Manage.packageListPage, name='packageListPage'),
 
     # user
     path('user/list/page=<page>', user.User.userPage, name='userPage'),

@@ -3,7 +3,8 @@
 import os
 import sys
 import json
-
+from logzero import logger
+import platform
 
 def dbInitialize():
     """db config initialize"""
@@ -20,8 +21,16 @@ def dbInitialize():
        with open('./hyacinth/config.json', 'a+', encoding="utf-8") as file:
            file.write(json.dumps(content))
 
+def checkPyVer():
+    """check python version"""
+    if int(platform.python_version().split('.')[0]) < 3:
+        logger.error('python version must be >2,your python version is {}'.format(platform.python_version()))
+        logger.error('please install python::3 and pip3 install -U solox')
+        sys.exit()
+
 def main():
     """Run administrative tasks."""
+    checkPyVer()
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hyacinth.settings')
     try:
         from django.core.management import execute_from_command_line

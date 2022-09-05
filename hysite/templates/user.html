@@ -453,11 +453,10 @@
 
     function editUser(username) {
         setUser(username);
-        var password = document.getElementById("edit-password").value.trim();
-        var nickname = document.getElementById("edit-nickname").value.trim();
-        var email = document.getElementById("edit-email").value.trim();
-
         $('#update-confirm').on('click', function () {
+            var password = document.getElementById("edit-password").value.trim();
+            var nickname = document.getElementById("edit-nickname").value.trim();
+            var email = document.getElementById("edit-email").value.trim();
             if(password && nickname){
                 $.ajax({
                     url: "/user/api/edit",
