@@ -42,6 +42,7 @@ class package_info(models.Model):
     """package info table"""
     id = models.AutoField(primary_key=True)
     pkgname = models.CharField(max_length=64)
+    platform = models.CharField(max_length=64, default='Android')
     key = models.TextField(null=True)
     icon = models.TextField(null=True)
     newest_version = models.TextField(null=True)

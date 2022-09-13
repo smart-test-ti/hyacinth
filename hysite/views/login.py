@@ -85,6 +85,8 @@ class Initialize():
             initialized = models.user.objects.filter(username='hyacinth').values("initialized").last()['initialized']
             if initialized == 1:
                 return redirect('/login/signin')
+        else:
+            models.user(username='hyacinth', password='CjOQ2ME7Rilash66', nickname='风信子', role='超级管理员').save()
         if request.path == '/':
             return redirect('/initialize/result')
         models.user.objects.filter(username='hyacinth').update(initialized=1)

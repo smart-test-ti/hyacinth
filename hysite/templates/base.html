@@ -22,6 +22,8 @@
     <link href="/static/css/select2.min.css" rel="stylesheet">
     <link href="/static/css/select2-bootstrap-5-theme.min.css" rel="stylesheet">
     <link href="/static/css/select2-bootstrap-5-theme.rtl.min.css" rel="stylesheet">
+    <!-- Sweetalert2-->
+    <link rel="stylesheet" href="/static/css/sweetalert2.min.css" />
 
     <!-- Daterangepicker -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -42,82 +44,75 @@
 <script src="/static/js/qrcode.min.js"></script>
 <!-- Select2 -->
 <script src="/static/js/select2.min.js"></script>
-
 <!-- Spop -->
 <script src="/static/js/spop.js"></script>
-<!-- Loading -->
-<script src="/static/js/loading.js"></script>
 <!-- Daterangepicker -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <!-- DateFormat -->
 <script src="/static/js/date-format.js"></script>
+
+
 <script>
-/**
- * toast样式
- */
+    const SPOP_TYPE={
+        error:'error',
+        success:'success',
+        warning:'warning'
+    };
 
-const SPOP_TYPE={
-	error:'error',
-	success:'success',
-	warning:'warning'
-};
+    function Spop(type,msg){
+        spop({
+            template: msg,
+            position  : 'top-center',
+            style: type,
+            autoclose: 2000
+        });
+    };
 
-function Spop(type,msg){
-    spop({
-        template: msg,
-		position  : 'top-center',
-		style: type,
-		autoclose: 2000
-	});
-};
+    function rute(path,_blank=false) {
+        if(_blank){
+            window.open(path);
+        }else {
+            window.location.href = path
+        }
+    };
 
-/**
- * loading效果
- */
-const LOAGDING_TYPE={
-	small:120,
-    normal:170
-};
-
-function loading(action='body',title=null,type=LOAGDING_TYPE.small) {
-    $(action).loading({
-        loadingWidth:type,
-        title:title,
-        name:'test',
-        discription:'',
-        direction:'column',
-        type:'origin',
-        originBg:'white',
-        originDivWidth:40,
-        originDivHeight:40,
-        originWidth:5,
-        originHeight:5,
-        smallLoading:true,
-        loadingMaskBg:'transparent'
-    });
-};
-
-function rute(path,_blank=false) {
-    // 路由跳转
-    if(_blank){
-        window.open(path);
-    }else {
-        window.location.href = path
+    function SwalLoading(title,html=null){
+        Swal.fire({
+            title: title,
+            html: html,
+            timerProgressBar: true,
+            allowOutsideClick: () => false,
+            didOpen: () => {
+                Swal.showLoading()
+            },
+        })
     }
-};
 
-$(document).ready(function() {
-    $('.select2-selection--single').select2({
-        theme: "bootstrap-5",
-        containerCssClass: "select2--small",
-        selectionCssClass: "select2--small",
-        dropdownCssClass: "select2--small",
+    function SwalFire(icon,title,text,timer=null) {
+        Swal.fire({
+            icon: icon,
+            title: title,
+            text: text,
+            showLoaderOnConfirm: true,
+            showCloseButton: true,
+            showConfirmButton: false,
+            timer:timer,
+            allowOutsideClick: () => true
+        })
+    }
+
+    $(document).ready(function() {
+        $('.select2-selection--single').select2({
+            theme: "bootstrap-5",
+            containerCssClass: "select2--small",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
+        $('.js-example-basic-multiple').select2({
+            theme: "bootstrap-5"
+        });
     });
-    $('.js-example-basic-multiple').select2({
-        theme: "bootstrap-5"
-    });
-});
 </script>
 
 {% block script %}{% endblock %}

@@ -1,7 +1,7 @@
 import datetime
-import requests
 import time
 import os
+import re
 from hysite import models
 import pymysql
 from androguard.core.bytecodes.apk import APK
@@ -19,24 +19,27 @@ class Method(object):
 
     @classmethod
     def _request(cls, request, object):
-        """请求方法"""
+        """request method"""
         if request.method == "POST":
             return request.POST.get(object)
         else:
             return request.GET.get(object)
 
+    def isInvaild(cls, check_str):
+        """Determine whether it contains illegal characters"""
+        searchObj = re.search(r'[&=\s\u4e00-\u9fff]', check_str, re.M | re.I)
+        if searchObj:
+            return True
+        return False
+
     @classmethod
     def currentTime(cls):
-        """当前时间"""
+        """get current time"""
         return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     @classmethod
     def getfileList(cls, file_dir: str):
-        """
-        :brief:获取文件夹下内，所有文件
-        :param file_dir:文件夹目录
-        :return: 文件列表
-        """
+        """Get a list of files in a directory"""
         for root, dirs, files in os.walk(file_dir):
             return files
         else:
@@ -44,7 +47,7 @@ class Method(object):
 
     @classmethod
     def getDatesByTimes(cls, sDateStr: str, eDateStr: str) -> list:
-        """获取区间日期"""
+        """Get interval date"""
         date_list = []
         datestart = datetime.datetime.strptime(sDateStr, '%Y-%m-%d')
         dateend = datetime.datetime.strptime(eDateStr, '%Y-%m-%d')
@@ -56,14 +59,14 @@ class Method(object):
 
     @classmethod
     def mysqlConnect(cls, host, port, user, password, db):
-        """mysql连接"""
+        """mysql connect"""
         conn = pymysql.connect(host=host, port=port, user=user, passwd=password, db=db, charset='utf8')
         cursor = conn.cursor()
         return cursor, conn
 
     @classmethod
     def getApkInfo(cls, apk_path: str) -> dict:
-        """获取apk信息"""
+        """get apk info"""
         apk_info = {}
         androguard = APK(apk_path)
         if androguard.is_valid_APK():
@@ -76,7 +79,7 @@ class Method(object):
 
     @classmethod
     def addUserLog(cls, username, **kwargs):
-        """记录用户操作日志"""
+        """Record user operation log"""
         avatar = kwargs['avatar']
         page = kwargs['page']
         action = kwargs['action']
@@ -85,7 +88,7 @@ class Method(object):
 
     @classmethod
     def uploadFile(cls, file_path, file_obj):
-        """保存上传文件"""
+        """save upload file"""
         with open(file_path, 'wb+') as f:
             for chunk in file_obj.chunks():
                 f.write(chunk)

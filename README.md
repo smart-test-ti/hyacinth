@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-<a><img src="./static/image/readme/logo.png" alt="Hyacinth" width="150"></a>
+<a><img src="https://cdn.nlark.com/yuque/0/2022/png/153412/1662542175003-cb28ac22-b457-4d23-bc1b-8920f88cf4f9.png" alt="Hyacinth" width="100"></a>
 <br>
 <br>
 

@@ -7,7 +7,7 @@ class Decorators(object):
 
     @classmethod
     def check_login(cls,function):
-        """登录检查装饰器"""
+        """login check decorator"""
         @wraps(function)
         def wrap(request, *arg, **kwargs):
             if request.session.get('is_login') == '1' or request.user.username:
@@ -18,7 +18,7 @@ class Decorators(object):
 
     @classmethod
     def fun_log(cls,function):
-        """记录日志装饰器"""
+        """logging decorator"""
         @wraps(function)
         def wrap(request,*arg, **kwargs):
             func = function(request, *arg, **kwargs)
@@ -28,7 +28,7 @@ class Decorators(object):
 
     @classmethod
     def catch_except(cls,function):
-        """异常跳转装饰器"""
+        """exception jump decorator"""
         @wraps(function)
         def wrap(request,*arg, **kwargs):
             try:

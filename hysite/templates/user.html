@@ -146,7 +146,6 @@
     </div>
 </div>
 
-
 <div class="modal modal-blur fade" id="modal-new-user" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-small" role="document">
         <div class="modal-content">
@@ -188,19 +187,19 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label class="form-label">账号</label>
+                            <label class="form-label required">账号</label>
                             <input id="create-username" type="text" class="form-control" placeholder="请输入账号名称">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label class="form-label">密码</label>
+                            <label class="form-label required">密码</label>
                             <input id="create-password" type="text" class="form-control" placeholder="请输入密码名称">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label class="form-label">昵称</label>
+                            <label class="form-label required">昵称</label>
                             <input id="create-nickname" type="text" class="form-control" placeholder="请输入昵称">
                         </div>
                     </div>
@@ -378,7 +377,7 @@
                 },
                 success: function (data) {
                     if (data['status'] == 1) {
-                        rute("/user/list/page=1");
+                        location.reload();
                     }
                     else{
                         Spop(SPOP_TYPE['error'],data['msg']);
@@ -477,7 +476,7 @@
                         },
                     success: function (data) {
                         if (data['status'] == 1) {
-                            rute("/user/list/page=1");
+                            location.reload();
                         }
                         else{
                             Spop(SPOP_TYPE['error'],data['msg']);
@@ -511,7 +510,7 @@
                 },
                 success: function (data) {
                     if (data['status'] == 1) {
-                        rute("/user/list/page=1");
+                        location.reload();
                     }
                     else{
                         Spop(SPOP_TYPE['error'],data['msg']);

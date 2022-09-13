@@ -16,11 +16,13 @@ urlpatterns = [
     path('initialize/result', login.Initialize.initializeResultPage, name='initializeResultPage'),
 
     # package
-    path('package/home/page=<page>', package.Manage.packageInfoPage, name='packageInfoPage'),
-    path('package/list/package=<package>&version=<version>', package.Manage.packageListPage, name='packageListPage'),
+    path('package/home', package.Home.packageInfoPage, name='packageInfoPage'),
+    path('package/list/package=<package>&version=<version>', package.List.packageListPage, name='packageListPage'),
+    path('package/api/create', package.Home.createPackageAPI, name='createPackageAPI'),
+    path('package/api/upload/logo', package.Home.uploadLogoAPI, name='uploadLogoAPI'),
 
     # user
-    path('user/list/page=<page>', user.User.userPage, name='userPage'),
+    path('user/list', user.User.userPage, name='userPage'),
     path('user/api/create', user.User.createUserAPI, name='createUserAPI'),
     path('user/api/info', user.User.getUserAPI, name='getUserAPI'),
     path('user/api/edit', user.User.editUserAPI, name='editUserAPI'),
