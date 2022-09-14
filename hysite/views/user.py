@@ -52,8 +52,11 @@ class User:
         email = common._request(request, 'email')
         user = models.user.objects.filter(username=username)
         if not user:
-            models.user(username=username, password=password, nickname=nickname,
-                        role=role, email=email).save()
+            models.user(username=username,
+                        password=password,
+                        nickname=nickname,
+                        role=role,
+                        email=email).save()
             result = {'status': 1, 'msg': 'create user success'}
         else:
             result = {'status': 0, 'msg': 'user existed'}
