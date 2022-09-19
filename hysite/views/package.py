@@ -5,8 +5,10 @@ from django.http import HttpResponse
 import json
 import re
 import random
+import string
 import sys
 import os
+import time
 import shutil
 from hysite import models
 from hysite.public.common import Method
@@ -27,6 +29,12 @@ class Home:
         username = request.session['username']
         role = models.user.objects.filter(username=username).values("role").first()['role']
         packages = models.package_info.objects.all().order_by('-id')
+        logo_path = os.path.join(cls.currentPath, "..", "static", "logo")
+        android_path = os.path.join(cls.currentPath, "..", "static", "apk")
+        ios_path = os.path.join(cls.currentPath, "..", "static", "ipa")
+        for path in [android_path,ios_path]:
+            if not os.path.exists(path):
+                os.mkdir(path)
         return render(request, 'package.html', locals())
 
     @classmethod
@@ -58,6 +66,7 @@ class Home:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def createPackageAPI(cls, request):
+        username = request.session['username']
         pkgname = common._request(request, 'pkgname')
         pkgname = re.sub(r'[&=\s]', "_", pkgname)
         key = common._request(request, 'key')
@@ -68,7 +77,7 @@ class Home:
         try:
             if not package:
                 if not key:
-                    key = random.sample('zyxwvutsrqponmlkjihgfedcba', 7)
+                    key = "".join(random.sample(string.ascii_letters+string.digits, 10))
                 file_path_dict = {
                     "Android": os.path.join(cls.currentPath, "..", "static", "apk", pkgname),
                     "iOS": os.path.join(cls.currentPath, "..", "static", "ipa", pkgname)
@@ -77,6 +86,7 @@ class Home:
                     os.mkdir(file_path_dict[platform])
                 models.package_info(pkgname=pkgname,
                                     key=key,
+                                    creater=username,
                                     platform=platform,
                                     icon=icon).save()
                 result = {'status': 1, 'msg': 'create package success'}
@@ -97,7 +107,7 @@ class Home:
             if icon:
                 icon_path = os.path.join(cls.currentPath, "..", "static", "logo", icon)
                 if os.path.exists(icon_path):
-                    shutil.rmtree(icon_path, True)
+                    os.remove(icon_path)
             result = {'status': 1, 'msg': 'delete package success'}
         except Exception as e:
             result = {'status': 0, 'msg': str(e)}
@@ -109,14 +119,18 @@ class Home:
     def uploadLogoAPI(cls, request):
         file = request.FILES.get('file')
         filename = common._request(request, 'filename')
-        logo_path = os.path.join(cls.currentPath, "..", "static", "logo", filename)
+        splitext = os.path.splitext(filename)[-1][1:]
+        current = time.strftime("%Y%m%d%H%M%S", time.localtime())
+        new_file_name = current + '.' + splitext
+        logo_path = os.path.join(cls.currentPath, "..", "static", "logo", new_file_name)
         try:
             if not os.path.exists(logo_path):
                 common.uploadFile(file_obj=file, file_path=logo_path)
-                result = {'status': 1, 'msg': 'success', 'icon': filename}
+                result = {'status': 1, 'msg': 'success', 'icon': new_file_name}
             else:
                 result = {'status': 0, 'msg': 'logo file existed'}
         except Exception as e:
+            print(e)
             result = {'status': 0, 'msg': str(e)}
         return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -153,4 +167,17 @@ class List:
         except Exception as e:
             result = {'status': 0, 'msg': str(e)}
         return HttpResponse(json.dumps(result), content_type="application/json")
+
+class Manage:
+
+    @classmethod
+    @method_decorator(Decorators.check_login)
+    @method_decorator(Decorators.catch_except)
+    def packageManagePage(cls, request, *arg, **kwargs):
+        nickname = request.session['nickname']
+        username = request.session['username']
+        role = models.user.objects.filter(username=username).values("role").first()['role']
+        packages = models.package_info.objects.all().order_by('-id')
+        packages_nums = models.package_info.objects.all().count()
+        return render(request, 'package-manage.html', locals())
 

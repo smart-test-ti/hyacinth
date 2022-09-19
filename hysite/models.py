@@ -45,6 +45,7 @@ class package_info(models.Model):
     platform = models.CharField(max_length=64, default='Android')
     key = models.TextField(null=True)
     icon = models.TextField(null=True)
+    creater = models.TextField(default='hyacinth')
     newest_version = models.TextField(null=True)
     ctime = models.DateTimeField(default=timezone.now)
 

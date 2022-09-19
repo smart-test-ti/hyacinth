@@ -1,6 +1,8 @@
 androguard
 apkutils2
-Django==3.2
-django-apscheduler==0.5.2
-django-cors-headers==3.7.0
+Django
+django-apscheduler
+django-cors-headers
 requests
+pymysql
+logzero

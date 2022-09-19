@@ -17,6 +17,7 @@ urlpatterns = [
 
     # package
     path('package/home', package.Home.packageInfoPage, name='packageInfoPage'),
+    path('package/manage', package.Manage.packageManagePage, name='packageManagePage'),
     path('package/list/package=<package>&version=<version>', package.List.packageListPage, name='packageListPage'),
     path('package/api/get', package.Home.getPackageAPI, name='getPackageAPI'),
     path('package/api/create', package.Home.createPackageAPI, name='createPackageAPI'),
