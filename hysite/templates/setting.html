@@ -1,0 +1,85 @@
+{% extends 'site-base.html' %}
+{% load static %}
+{% block title %}个人设置 - 风信子{% endblock %}
+{% block page_title %}个人设置{% endblock %}
+
+
+{% block page_body %}
+<div class="card">
+    <div class="row g-0">
+        <div class="col d-flex flex-column">
+            <div class="card-body">
+                <h3 class="card-title">资料详情</h3>
+                <div class="row align-items-center">
+                    <div class="col-auto"><span class="avatar avatar-xl" style="background-image: url(/static/image/avatar.png);background-color: transparent"></span>
+                    </div>
+                    <div class="col-auto"><a  class="btn">选择头像</a></div>
+                </div>
+                <div class="row g-3 mt-3">
+                    <div class="col-md">
+                        <div class="form-label">账号</div>
+                        <input type="text" disabled class="form-control" value="{{ username }}">
+                    </div>
+                    <div class="col-md">
+                        <div class="form-label">昵称</div>
+                        <input id="mynickname" type="text" class="form-control" value="{{ nickname }}">
+                    </div>
+                    <div class="col-md">
+                        <div class="form-label">密码</div>
+                        <input id="mypassword" type="text" class="form-control" value="{{ password }}">
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer bg-transparent mt-auto">
+                <div class="btn-list justify-content-end">
+                    <a onclick="editUser('{{ username }}')" class="btn btn-primary">保存</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+
+    function editUser(username) {
+        var password = document.getElementById("mypassword").value.trim();
+        var nickname = document.getElementById("mynickname").value.trim();
+        if(password && nickname){
+            $.ajax({
+                url: "/user/api/edit",
+                type: "POST",
+                async: false,
+                data: {
+                    username: username,
+                    password: password,
+                    nickname: nickname,
+                    role: '{{ role }}'
+                },
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                },
+                complete: function () {
+                    swal.close();
+                },
+                success: function (data) {
+                    if (data['status'] == 1) {
+                        location.reload();
+                    }
+                    else{
+                        Spop(SPOP_TYPE['error'],data['msg']);
+                    }
+                }
+            });
+        }
+        else {
+            Spop(SPOP_TYPE['error'],'密码、昵称不能为空');
+        }
+    }
+
+</script>
+
+{% endblock %}
+

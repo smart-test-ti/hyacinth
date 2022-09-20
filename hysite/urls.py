@@ -6,6 +6,8 @@ from hysite.views import login, package, user
 app_name = 'hysite'
 
 urlpatterns = [
+
+    # Login
     path('',login.Initialize.initializeResultPage, name='initializeResultPage'),
     path('login/signin', login.Login.loginPage, name='loginPage'),
     path('login/api/signin', login.Login.signinAPI, name='signinAPI '),
@@ -16,7 +18,7 @@ urlpatterns = [
     path('initialize/result', login.Initialize.initializeResultPage, name='initializeResultPage'),
 
     # package
-    path('package/home', package.Home.packageInfoPage, name='packageInfoPage'),
+    path('package/home/app=<app>', package.Home.packageInfoPage, name='packageInfoPage'),
     path('package/manage', package.Manage.packageManagePage, name='packageManagePage'),
     path('package/list/package=<package>&version=<version>', package.List.packageListPage, name='packageListPage'),
     path('package/api/get', package.Home.getPackageAPI, name='getPackageAPI'),
@@ -30,5 +32,6 @@ urlpatterns = [
     path('user/api/info', user.User.getUserAPI, name='getUserAPI'),
     path('user/api/edit', user.User.editUserAPI, name='editUserAPI'),
     path('user/api/delete', user.User.deleteUserAPI, name='deleteUserAPI'),
+    path('user/setting', user.Setting.settingPage, name='settingPage'),
 
 ]

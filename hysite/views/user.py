@@ -23,6 +23,7 @@ class User:
         username = request.session['username']
         role = models.user.objects.filter(username=username).values("role").first()['role']
         users = models.user.objects.filter(~Q(role='超级管理员')).order_by('-id')
+        user_nums = models.user.objects.filter(~Q(role='超级管理员')).count()
         return render(request, 'user.html', locals())
 
     @classmethod
@@ -44,7 +45,7 @@ class User:
     @method_decorator(Decorators.catch_except)
     def createUserAPI(cls, request):
         username = common._request(request, 'username')
-        username = re.sub(r'[&=\s\u4e00 -\u9fff]', "_", username)
+        username = re.sub(r'[\u4e00 - \u9fff&=\s]', "_", username)
         nickname = common._request(request, 'nickname')
         nickname = re.sub(r'[&=\s]', "_", nickname)
         password = common._request(request, 'password')
@@ -97,8 +98,10 @@ class Setting:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def settingPage(cls, request, *arg, **kwargs):
-        nickname = request.session['nickname']
         username = request.session['username']
+        nickname = models.user.objects.filter(username=username).values("nickname").first()['nickname']
+        role = models.user.objects.filter(username=username).values("role").first()['role']
+        password = models.user.objects.filter(username=username).values("password").first()['password']
         return render(request, 'setting.html', locals())
 
 

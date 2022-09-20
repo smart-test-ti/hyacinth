@@ -9,7 +9,6 @@ import string
 import sys
 import os
 import time
-import shutil
 from hysite import models
 from hysite.public.common import Method
 from hysite.public.decorators import Decorators
@@ -24,11 +23,15 @@ class Home:
     @classmethod
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
-    def packageInfoPage(cls, request):
+    def packageInfoPage(cls, request, *arg, **kwargs):
+        app = kwargs['app']
         nickname = request.session['nickname']
         username = request.session['username']
+        if app in ['all', '']:
+            packages = models.package_info.objects.all().order_by('-id')
+        else:
+            packages = models.package_info.objects.filter(pkgname=app).order_by('-id')
         role = models.user.objects.filter(username=username).values("role").first()['role']
-        packages = models.package_info.objects.all().order_by('-id')
         logo_path = os.path.join(cls.currentPath, "..", "static", "logo")
         android_path = os.path.join(cls.currentPath, "..", "static", "apk")
         ios_path = os.path.join(cls.currentPath, "..", "static", "ipa")

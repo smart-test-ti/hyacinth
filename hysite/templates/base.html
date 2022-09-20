@@ -15,7 +15,7 @@
     <!-- CSS files -->
     <link rel="icon" href="/static/image/logo/logo.png">
     <link rel="stylesheet" href="/static/css/tabler.min.css">
-    <link rel="stylesheet" href="/static/css/tabler.demo.min.css" />
+    <!--<link rel="stylesheet" href="/static/css/tabler.demo.min.css" />-->
     <!-- Spop -->
     <link href="/static/css/spop.css" rel="stylesheet">
     <!-- select2 -->
@@ -51,6 +51,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <!-- DateFormat -->
 <script src="/static/js/date-format.js"></script>
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
 
 <script>
@@ -101,6 +103,26 @@
             allowOutsideClick: () => true
         })
     }
+
+    function maketable({Table=null, pageLength=10,paging=true,
+                           lengthChange=true,searching=true,columns=null,data=null}) {
+        let table = $(Table).DataTable({
+            "destroy": true,
+            "pageLength": pageLength,
+            "paging": paging, <!-- 允许分页 -->
+            "lengthChange": lengthChange, <!-- 允许改变每页显示的行数 -->
+            "searching": searching, <!-- 允许内容搜索 -->
+            "ordering": false, <!-- 允许排序 -->
+            "info": false, <!-- 显示信息 -->
+            "autoWidth": false, <!-- 固定宽度 -->
+            "pagingType": "full_numbers",
+            "order": [[0, "desc"]],
+            dom: 't<"bottom"ip><"clear">',
+            columns:columns,
+            data:data
+        });
+        return table
+    };
 
     $(document).ready(function() {
         $('.select2-selection--single').select2({
