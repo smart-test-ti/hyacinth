@@ -4,31 +4,34 @@
 {% block page_title %}
 <a class="active"  href="/package/home/app=all">上一页</a>
 <svg t="1662281709490" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="29823" width="300" height="300"><path d="M558.933333 490.666667L384 665.6l59.733333 59.733333 234.666667-234.666666L443.733333 256 384 315.733333l174.933333 174.933334z" fill="#ffffff" p-id="29824"></path></svg>
-{{ package }}
+{{ app }}
 {% endblock %}
 
 {% block ms-auto %}
 <select id="search-version" class="select2-selection--single form-control" data-placeholder="请选择版本" style="width: auto;min-width: 150px">
-    <option>10.10.00</option>
-    <option>10.10.01</option>
+    {% for versions in version_list %}
+    <option>{{ versions.version }}</option>
+    {% endfor %}
 </select>
 {% endblock %}
 
 {% block page_body %}
 
+{% if packages_file_nums > 0 %}
 <div class="space-y-4">
+    {% for package_file in package_files %}
     <div class="build-version">
-        <h2 class="mb-3">Build Num #1</h2>
+        <h2 class="mb-3">Build Num #{{ package_file.build_num }}</h2>
         <div id="faq-1" class="accordion" role="tablist" aria-multiselectable="true">
             <div class="accordion-item">
                 <div  class="accordion-header" role="tab">
-                    <button  class="accordion-button file-link" data-bs-toggle="collapse" data-bs-target="#faq-1-1">douyin-release-22010102.apk</button>
+                    <button  class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq-1-1">{{ package_file.filename }}</button>
                 </div>
                 <div id="faq-1-1" class="accordion-collapse collapse show" role="tabpanel" data-bs-parent="#faq-1">
                     <div class="accordion-body pt-0">
                         <div class="row mb-3">
                             <div class="col-auto mt-2">
-                                <a  class="btn btn-default">
+                                <a href="{{ package_file.filepath }}" target="_blank" class="btn btn-default">
                                     <svg t="1662287073537" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="40751" width="2000" height="2000"><path d="M955.1 632.7c-10.5-82-84.4-141.4-167.1-141.4h-42.8V451c0-124.1-93.4-232.6-217.2-240.9-135.8-9.1-249.2 98.8-249.2 232.7v48.5H236c-82.7 0-156.5 59.3-167.1 141.4-12.8 99.3 64.6 184.2 161.4 184.2h563.5c96.7 0 174.1-84.9 161.3-184.2z m-324-9.7l-97.5 97.5c-5.9 5.9-13.8 8.8-21.6 8.4-7.8 0.3-15.7-2.5-21.6-8.4L392.9 623c-11.3-11.3-11.3-29.6 0-40.8l5.7-5.7c11.3-11.3 29.6-11.3 40.8 0l39.2 39.2V450.3c0-18.3 14.8-33.2 33.2-33.2h0.5c18.3 0 33.2 14.8 33.2 33.2v165.3l39.2-39.2c11.3-11.3 29.6-11.3 40.8 0l5.7 5.7c11.2 11.3 11.2 29.6-0.1 40.9z" fill="#3259CE" p-id="40752"></path></svg>
                                     下载文件
                                 </a>
@@ -40,13 +43,13 @@
                                 </a>
                             </div>
                             <div class="col-auto mt-2">
-                                <a onclick="seachUser()" class="btn btn-default">
+                                <a class="btn btn-default">
                                     <svg t="1662287020701" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="34233" width="2000" height="2000"><path d="M363.91 438.358l265.776-153.45 18.85 32.648-265.775 153.45z" fill="#4E30DC" p-id="34234"></path><path d="M380.8 478.5l-24.3-42.1 275.3-159 24.3 42.1-275.3 159z m-9.3-38.1l13.3 23.1 256.3-148-13.3-23.1-256.3 148zM361.676 595.73l18.85-32.647L646.3 716.533l-18.85 32.648z" fill="#4E30DC" p-id="34235"></path><path d="M629.5 756.7l-275.3-159 24.3-42.1 275.3 159-24.3 42.1z m-260.3-163l256.3 148 13.3-23.1-256.3-148-13.3 23.1z" fill="#4E30DC" p-id="34236"></path><path d="M267.1 368.8c-79.8 0-144.6 64.9-144.6 144.7 0 79.7 64.9 144.6 144.6 144.6 79.7 0 144.6-64.9 144.6-144.6 0-79.8-64.8-144.7-144.6-144.7z m0 240.6c-52.9 0-96-43-96-96 0-52.9 43.1-96 96-96s96 43.1 96 96c0 53-43.1 96-96 96z" fill="#FF4E7D" p-id="34237"></path><path d="M749.6 632.7c-76.7 0-139.1 62.4-139.1 139.1 0 76.7 62.4 139.2 139.1 139.2 76.7 0 139.1-62.4 139.1-139.2 0-76.7-62.4-139.1-139.1-139.1zM851 771.9c0 56-45.5 101.5-101.5 101.5S648 827.9 648 771.9c0-55.9 45.5-101.5 101.5-101.5S851 715.9 851 771.9z" fill="#4E30DC" p-id="34238"></path><path d="M749.6 916.5c-79.8 0-144.6-64.9-144.6-144.7 0-79.7 64.9-144.6 144.6-144.6 79.7 0 144.6 64.9 144.6 144.6 0 79.8-64.9 144.7-144.6 144.7z m0-278.3c-73.7 0-133.6 59.9-133.6 133.6 0 73.7 60 133.7 133.6 133.7 73.7 0 133.6-60 133.6-133.7 0-73.6-59.9-133.6-133.6-133.6z m0 240.7c-59 0-107-48-107-107s48-107 107-107 107 48 107 107c-0.1 59-48 107-107 107z m0-203c-52.9 0-96 43-96 96 0 52.9 43.1 96 96 96s96-43.1 96-96c-0.1-52.9-43.1-96-96-96z" fill="#4E30DC" p-id="34239"></path><path d="M749.6 113.8c-76.7 0-139.1 62.4-139.1 139.1 0 76.7 62.4 139.2 139.1 139.2 76.7 0 139.1-62.4 139.1-139.2 0-76.7-62.4-139.1-139.1-139.1zM851 252.9c0 56-45.5 101.5-101.5 101.5S648 308.9 648 252.9c0-55.9 45.5-101.5 101.5-101.5S851 196.9 851 252.9z" fill="#4E30DC" p-id="34240"></path><path d="M749.6 397.5c-79.8 0-144.6-64.9-144.6-144.7 0-79.7 64.9-144.6 144.6-144.6 79.7 0 144.6 64.9 144.6 144.6 0 79.9-64.9 144.7-144.6 144.7z m0-278.2c-73.7 0-133.6 59.9-133.6 133.6 0 73.7 60 133.7 133.6 133.7 73.7 0 133.6-60 133.6-133.7 0-73.7-59.9-133.6-133.6-133.6z m0 240.6c-59 0-107-48-107-107s48-107 107-107 107 48 107 107c-0.1 59-48 107-107 107z m0-203c-52.9 0-96 43-96 96 0 52.9 43.1 96 96 96s96-43.1 96-96c-0.1-52.9-43.1-96-96-96z" fill="#4E30DC" p-id="34241"></path></svg>
                                     分享
                                 </a>
                             </div>
                             <div class="col-auto mt-2">
-                                <a class="btn btn-default">
+                                <a class="btn btn-default" onclick="deleteFile('{{ app }}','{{ version }}','{{ package_file.filename }}')" data-bs-toggle="modal" data-bs-target="#modal-danger">
                                     <svg t="1635400029781" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17941" width="200" height="200"><path d="M877.79 217.23H624.22c0-36.02-29.2-65.23-65.23-65.23H465c-36.02 0-65.23 29.2-65.23 65.23H146.21c-18.01 0-32.61 14.6-32.61 32.61 0 18.01 14.6 32.61 32.61 32.61h49.75l14.43 528.79c1.06 33.91 25.21 60.76 54.64 60.76h493.93c29.43 0 53.58-26.86 54.64-60.76l14.48-528.79h49.7c18.01 0 32.61-14.6 32.61-32.61 0.01-18.01-14.59-32.61-32.6-32.61zM364.24 748.41c-17.98 0.82-33.4-10.01-34.44-24.19L308 427.56c-1.04-14.18 12.69-26.34 30.67-27.16 17.98-0.82 33.4 10.01 34.45 24.19l21.8 296.67c1.04 14.17-12.7 26.33-30.68 27.15z m180.37-25.42c0 14.2-14.6 25.72-32.61 25.72-18.01 0-32.61-11.51-32.61-25.72V425.83c0-14.2 14.6-25.72 32.61-25.72 18.01 0 32.61 11.51 32.61 25.72v297.16zM716 427.56l-21.8 296.67c-1.04 14.18-16.46 25.01-34.44 24.19-17.98-0.82-31.71-12.98-30.67-27.16l21.8-296.67c1.04-14.18 16.46-25.01 34.44-24.19 17.98 0.82 31.72 12.98 30.67 27.16z" fill="#FF5D5D" p-id="17942"></path></svg>
                                     删除
                                 </a>
@@ -58,21 +61,9 @@
             </div>
         </div>
     </div>
-    <div class="build-version">
-        <h2 class="mb-3">Build Num #2</h2>
-        <div id="faq-2" class="accordion" role="tablist" aria-multiselectable="true">
-            <div class="accordion-item">
-                <div class="accordion-header" role="tab">
-                    <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq-1-2">douyin-release-22010101.apk</button>
-                </div>
-                <div id="faq-1-2" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-2">
-                    <div class="accordion-body pt-0">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 </div>
+{% else %}
 <div class="empty">
     <div class="empty-img">
         <?xml version="1.0" encoding="UTF-8"?>
@@ -109,6 +100,37 @@
     </div>
     <p class="empty-title">该应用没有版本记录</p>
 </div>
+{% endif %}
+<div class="modal modal-blur fade" id="modal-danger" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
+                <h3>确认删除?</h3>
+                <div class="text-muted file-name"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a  class="btn btn-white w-100" data-bs-dismiss="modal">
+                            取消
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a  id="remove-confirm" class="btn btn-danger w-100">
+                            确认
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block script %}
@@ -116,14 +138,49 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: "https://github.com/",
-	width: 280,
-	height: 280,
-	colorDark : "#303030",
-	colorLight : "#ffffff",
-	correctLevel : QRCode.CorrectLevel.H
-});
+
+    function deleteFile(pkgname, version, filename) {
+
+        $('.file-name').text(filename);
+
+        $('#remove-confirm').on('click', function () {
+            $.ajax({
+                url: "/package/api/file/delete",
+                type: "POST",
+                async: false,
+                data: {
+                    pkgname: pkgname,
+                    version: version,
+                    filename: filename,
+                },
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                    },
+                complete: function () {
+                    swal.close();
+                    },
+                success: function (data) {
+                    if (data['status'] == 1) {
+                        location.reload();
+                    }
+                    else{
+                        Spop(SPOP_TYPE['error'],data['msg']);
+                    }
+                }
+            });
+        });
+    }
+
+// var qrcode = new QRCode(document.getElementById("qrcode"), {
+// 	text: "https://github.com/",
+// 	width: 280,
+// 	height: 280,
+// 	colorDark : "#303030",
+// 	colorLight : "#ffffff",
+// 	correctLevel : QRCode.CorrectLevel.H
+// });
+
+
 </script>
 {% endblock %}
 

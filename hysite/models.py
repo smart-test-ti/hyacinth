@@ -55,12 +55,32 @@ class package_info(models.Model):
 class package_list(models.Model):
     """package list table"""
     id = models.AutoField(primary_key=True)
+    build_num = models.IntegerField(default=0)
     pkgname = models.CharField(max_length=64)
     version = models.CharField(max_length=64)
     platform = models.CharField(max_length=64)
     filename = models.CharField(max_length=64)
+    filepath = models.TextField(default='')
     is_share = models.IntegerField(default=0)
     ctime = models.DateTimeField(default=timezone.now)
 
+class package_version_list(models.Model):
+    """package version list table"""
+    id = models.AutoField(primary_key=True)
+    pkgname = models.CharField(max_length=64)
+    version = models.CharField(max_length=64)
+    ctime = models.DateTimeField(default=timezone.now)
+
+class package_share_info(models.Model):
+    """package share info table"""
+    id = models.AutoField(primary_key=True)
+    token = models.CharField(max_length=64)
+    pkgname = models.CharField(max_length=64)
+    version = models.CharField(max_length=64)
+    platform = models.CharField(max_length=64)
+    filename = models.CharField(max_length=64)
+    filepath = models.TextField(default='')
+    ctime = models.DateTimeField(default=timezone.now)
+
     def __str__(self):
-        return ' %s' % ( self.pkgname)
+        return ' %s' % ( self.token)

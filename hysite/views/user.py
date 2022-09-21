@@ -30,7 +30,7 @@ class User:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def getUserAPI(cls, request):
-        username = common._request(request, 'username')
+        username = common.requestMthod(request, 'username')
         try:
             users = models.user.objects.filter(username=username)
             data = [{'nickname': user.nickname, 'password': user.password,
@@ -44,13 +44,13 @@ class User:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def createUserAPI(cls, request):
-        username = common._request(request, 'username')
+        username = common.requestMthod(request, 'username')
         username = re.sub(r'[\u4e00 - \u9fff&=\s]', "_", username)
-        nickname = common._request(request, 'nickname')
+        nickname = common.requestMthod(request, 'nickname')
         nickname = re.sub(r'[&=\s]', "_", nickname)
-        password = common._request(request, 'password')
-        role = common._request(request, 'role')
-        email = common._request(request, 'email')
+        password = common.requestMthod(request, 'password')
+        role = common.requestMthod(request, 'role')
+        email = common.requestMthod(request, 'email')
         user = models.user.objects.filter(username=username)
         if not user:
             models.user(username=username,
@@ -67,11 +67,11 @@ class User:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def editUserAPI(cls, request):
-        username = common._request(request, 'username')
-        nickname = common._request(request, 'nickname')
+        username = common.requestMthod(request, 'username')
+        nickname = common.requestMthod(request, 'nickname')
         nickname = re.sub(r'[&=\s]', "_", nickname)
-        password = common._request(request, 'password')
-        role = common._request(request, 'role')
+        password = common.requestMthod(request, 'password')
+        role = common.requestMthod(request, 'role')
         try:
             models.user.objects.filter(username=username).update(nickname=nickname, password=password, role=role)
             result = {'status': 1, 'msg': 'edit user success'}
@@ -84,7 +84,7 @@ class User:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def deleteUserAPI(cls, request):
-        username = common._request(request, 'username')
+        username = common.requestMthod(request, 'username')
         try:
             models.user.objects.filter(username=username).delete()
             result = {'status': 1, 'msg': 'delete user success'}

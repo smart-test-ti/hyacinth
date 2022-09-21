@@ -18,7 +18,7 @@ class Method(object):
         }
 
     @classmethod
-    def _request(cls, request, object):
+    def requestMthod(cls, request, object):
         """request method"""
         if request.method == "POST":
             return request.POST.get(object)

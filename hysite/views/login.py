@@ -5,7 +5,6 @@ from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.http import HttpResponse
 import json
-import requests
 import sys
 from hysite import models
 from hysite.public.common import Method
@@ -29,8 +28,8 @@ class Login(View):
     @method_decorator(Decorators.catch_except)
     def signinAPI(cls, request):
         """登录接口"""
-        username = common._request(request, 'username')
-        password = common._request(request, 'password')
+        username = common.requestMthod(request, 'username')
+        password = common.requestMthod(request, 'password')
         user = models.user.objects.filter(username=username, password=password)
         if user:
             request.session['is_login'] = '1'
@@ -47,8 +46,8 @@ class Login(View):
     @method_decorator(Decorators.catch_except)
     def signupAPI(cls, request):
         """注册接口"""
-        username = common._request(request, 'username')
-        password = common._request(request, 'password')
+        username = common.requestMthod(request, 'username')
+        password = common.requestMthod(request, 'password')
         user = models.user.objects.filter(username=username, password=password)
         if user:
             result = {'status': 0, 'msg': 'user existed'}

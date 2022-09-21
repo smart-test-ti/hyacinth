@@ -20,11 +20,16 @@ urlpatterns = [
     # package
     path('package/home/app=<app>', package.Home.packageInfoPage, name='packageInfoPage'),
     path('package/manage', package.Manage.packageManagePage, name='packageManagePage'),
-    path('package/list/package=<package>&version=<version>', package.List.packageListPage, name='packageListPage'),
+    path('package/list/app=<app>&version=<version>', package.List.packageListPage, name='packageListPage'),
+
     path('package/api/get', package.Home.getPackageAPI, name='getPackageAPI'),
     path('package/api/create', package.Home.createPackageAPI, name='createPackageAPI'),
     path('package/api/delete', package.Home.deletePackageAPI, name='deletePackageAPI'),
     path('package/api/upload/logo', package.Home.uploadLogoAPI, name='uploadLogoAPI'),
+
+    path('package/api/version', package.List.getPackageVersionAPI, name='getPackageVersionAPI'),
+    path('package/api/file/create', package.List.createVersionFileAPI, name='createVersionFileAPI'),
+    path('package/api/file/delete', package.List.deleteVersionFileAPI, name='deleteVersionFileAPI'),
 
     # user
     path('user/list', user.User.userPage, name='userPage'),

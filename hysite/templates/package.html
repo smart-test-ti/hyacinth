@@ -25,7 +25,7 @@
 <div class="row row-cards">
     {% for package in packages%}
     <div class="col-md-6 col-lg-3">
-        <a class="card card-link" href="/package/list/package={{ package.pkgname }}&version=10.10.00">
+        <a class="card card-link cursor-pointer" onclick="viewVersionFile('{{ package.pkgname }}', '{{ package.newest_version }}')">
             <div class="card-body">
                 <div class="row">
                     <div class="col-auto">
@@ -109,6 +109,38 @@
         }
 
     };
+
+
+
+    function viewVersionFile(pkgname,version) {
+        if(version){
+            rute('/package/list/app='+pkgname+'&version='+version)
+        }else {
+            $.ajax({
+                url: "/package/api/version",
+                type: "POST",
+                async: false,
+                data: {
+                    pkgname: pkgname,
+                },
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                    },
+                complete: function () {
+                    swal.close();
+                    },
+                success: function (data) {
+                    if (data['version_list'].length > 0) {
+                        rute('/package/list/app='+pkgname+'&version='+data['version_list'][0]);
+                    }
+                    else{
+                        rute('/package/list/app='+pkgname+'&version=none');
+                    }
+                }
+            });
+        }
+
+    }
 
 </script>
 
