@@ -159,7 +159,7 @@ class List:
 
         package_files = models.package_list.objects.filter(pkgname=app, version=version).order_by('-id')
         packages_file_nums = models.package_list.objects.filter(pkgname=app, version=version).count()
-        versions = models.package_list.objects.filter(pkgname=app).values('version').distinct().order_by('-id')
+        versions = models.package_list.objects.filter(pkgname=app).order_by('-id').values('version').distinct()
         version_list = [version for version in versions]
         return render(request, 'package-list.html', locals())
 
