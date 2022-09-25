@@ -31,6 +31,7 @@ class User:
         avatar = models.user.objects.filter(username=username).values("avatar").first()['avatar']
         users = models.user.objects.filter(~Q(role='超级管理员')).order_by('-id')
         user_nums = models.user.objects.filter(~Q(role='超级管理员')).count()
+        logs = models.package_log.objects.all().order_by('-id')[:5]
         return render(request, 'user.html', locals())
 
     @classmethod
@@ -115,6 +116,7 @@ class Setting:
         role = models.user.objects.filter(username=username).values("role").first()['role']
         password = models.user.objects.filter(username=username).values("password").first()['password']
         avatar = models.user.objects.filter(username=username).values("avatar").first()['avatar']
+        logs = models.package_log.objects.all().order_by('-id')[:5]
         return render(request, 'setting.html', locals())
 
     @classmethod

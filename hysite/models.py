@@ -84,3 +84,16 @@ class package_share_info(models.Model):
 
     def __str__(self):
         return ' %s' % ( self.token)
+
+class package_log(models.Model):
+    """package log info table"""
+    id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=64)
+    pkgname = models.TextField(null=True)
+    version = models.TextField(null=True)
+    filename = models.TextField(null=True)
+    action = models.TextField(null=True)
+    ctime = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return ' %s' % ( self.pkgname)

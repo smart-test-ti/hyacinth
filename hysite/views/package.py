@@ -37,6 +37,7 @@ class Home:
             packages = models.package_info.objects.all().order_by('-id')
         else:
             packages = models.package_info.objects.filter(pkgname=app).order_by('-id')
+            logs = models.package_log.objects.all().order_by('-id')[:5]
         role = models.user.objects.filter(username=username).values("role").first()['role']
         avatar = models.user.objects.filter(username=username).values("avatar").first()['avatar']
         logo_path = os.path.join(BASE_DIR, "static", "logo")
@@ -170,6 +171,7 @@ class List:
         username = request.session['username']
         role = models.user.objects.filter(username=username).values("role").first()['role']
         avatar = models.user.objects.filter(username=username).values("avatar").first()['avatar']
+        logs = models.package_log.objects.all().order_by('-id')[:5]
         platform = models.package_info.objects.filter(pkgname=app).values("platform").first()['platform']
         file_path_dict = {
             "Android": os.path.join(BASE_DIR, "static", "apk", app, version),
@@ -231,6 +233,7 @@ class List:
                     if not versions:
                         models.package_version_list(pkgname=app, version=version).save()
                         models.package_info.objects.filter(pkgname=app).update(newest_version=version)
+                    models.package_log(username='api', pkgname=app, version=version, action=f'上传文件{filename}').save()
                     result = {'status': 1, 'msg': 'success', 'download_path': download_path}
                 else:
                     result = {'status': 0, 'msg': 'filename existed'}
@@ -312,6 +315,7 @@ class Manage:
         avatar = models.user.objects.filter(username=username).values("avatar").first()['avatar']
         packages = models.package_info.objects.all().order_by('-id')
         packages_nums = models.package_info.objects.all().count()
+        logs = models.package_log.objects.all().order_by('-id')[:5]
         return render(request, 'package-manage.html', locals())
 
     @classmethod
@@ -324,12 +328,14 @@ class Manage:
         role = models.user.objects.filter(username=username).values("role").first()['role']
         versions = models.package_version_list.objects.filter(pkgname=app).order_by('-id')
         version_nums = models.package_version_list.objects.filter(pkgname=app).count()
+        logs = models.package_log.objects.all().order_by('-id')[:5]
         return render(request, 'package-manage-version.html', locals())
 
     @classmethod
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def createVersionAPI(cls, request):
+        username = request.session['username']
         pkgname = common.requestMthod(request, 'pkgname')
         version = common.requestMthod(request, 'version')
         try:
@@ -337,6 +343,7 @@ class Manage:
             if version_nums == 0:
                 models.package_version_list(pkgname=pkgname, version=version).save()
                 models.package_info.objects.filter(pkgname=pkgname).update(newest_version=version)
+                models.package_log(username=username, pkgname=pkgname, version=version, action=f'创建新的版本{version}').save()
                 result = {'status': 1, 'msg': 'create version success'}
             else:
                 result = {'status': 0, 'msg': 'version existed'}
@@ -349,6 +356,7 @@ class Manage:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def deleteVersionAPI(cls, request):
+        username = request.session['username']
         pkgname = common.requestMthod(request, 'pkgname')
         version = common.requestMthod(request, 'version')
         try:
@@ -360,6 +368,7 @@ class Manage:
                 file_path = os.path.join(BASE_DIR, "static", platform_file_dict[platform], pkgname, version)
                 if os.path.exists(file_path):
                     shutil.rmtree(file_path, True)
+                models.package_log(username=username, pkgname=pkgname, version=version, action=f'删除了版本{version}').save()
                 result = {'status': 1, 'msg': 'delete version success'}
             else:
                 result = {'status': 0, 'msg': 'version files must be 0'}
@@ -372,6 +381,7 @@ class Manage:
     @method_decorator(Decorators.check_login)
     @method_decorator(Decorators.catch_except)
     def editVersionAPI(cls, request):
+        username = request.session['username']
         pkgname = common.requestMthod(request, 'pkgname')
         old_version = common.requestMthod(request, 'old_version')
         new_version = common.requestMthod(request, 'new_version')
@@ -380,6 +390,7 @@ class Manage:
             if version_nums == 0:
                 models.package_version_list.objects.filter(pkgname=pkgname, version=old_version).update(version=new_version)
                 models.package_list.objects.filter(pkgname=pkgname, version=old_version).update(version=new_version)
+                models.package_log(username=username, pkgname=pkgname, version=old_version, action=f'{old_version}修改为{new_version}').save()
                 result = {'status': 1, 'msg': 'edit version success'}
             else:
                 result = {'status': 0, 'msg': 'version existed'}
