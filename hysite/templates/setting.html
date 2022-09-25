@@ -11,9 +11,20 @@
             <div class="card-body">
                 <h3 class="card-title">资料详情</h3>
                 <div class="row align-items-center">
-                    <div class="col-auto"><span class="avatar avatar-xl" style="background-image: url(/static/image/avatar.png);background-color: transparent"></span>
+
+                    <div class="col-auto">
+                        {% if avatar %}
+                        <span class="avatar avatar-xl avatar-rounded" style="background-image: url(/static/avatar/{{ username }}/{{ avatar }});background-color: transparent"></span>
+                        {% else %}
+                        <span class="avatar avatar-xl avatar-rounded" style="background-image: url(/static/image/avatar.png);background-color: transparent"></span>
+                        {% endif %}
                     </div>
-                    <div class="col-auto"><a  class="btn">更换头像</a></div>
+                    <div class="col-auto"><a id="upload-avatar" class="btn btn-default">更换头像</a></div>
+                    <form id="form_id" method="post" enctype="multipart/form-data" style="display: none">
+                        <div class="modal-body">
+                            <input type="file" id="avatar-file" name="file" accept="image/*">
+                        </div>
+                    </form>
                 </div>
                 <div class="row g-3 mt-3">
                     <div class="col-md">
@@ -43,6 +54,45 @@
 {% endblock %}
 {% block script %}
 <script>
+
+    var input = document.getElementById('avatar-file');
+    document.getElementById('upload-avatar').onclick = function () {
+        input.click();
+    };
+
+    $('#avatar-file').on('keyup change', function () {
+
+        var form_data = new FormData();
+        var file_obj =this.files[0];
+        var filename = this.files[0].name;
+        form_data.append('file',file_obj);
+        form_data.append('filename',filename);
+        if(filename){
+            $.ajax({
+                url: "/user/api/setting/avatar",
+                type: "POST",
+                async:true,
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: form_data,
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                },
+                complete: function(){
+                    swal.close();
+                },
+                success: function (data) {
+                    if(data['status'] == 1){
+                        location.reload();
+                    }else {
+                        Spop(SPOP_TYPE.error,data['msg']);
+                    }
+                }
+            });
+        }
+
+    });
 
     function editUser(username) {
         var password = document.getElementById("mypassword").value.trim();

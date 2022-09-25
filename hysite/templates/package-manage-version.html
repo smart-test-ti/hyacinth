@@ -1,0 +1,333 @@
+{% extends 'site-base.html' %}
+{% load static %}
+{% block title %}版本管理 - 风信子{% endblock %}
+{% block page_title %}
+<a class="active"  href="/package/manage">上一页</a>
+<svg t="1662281709490" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="29823" width="300" height="300"><path d="M558.933333 490.666667L384 665.6l59.733333 59.733333 234.666667-234.666666L443.733333 256 384 315.733333l174.933333 174.933334z" fill="#ffffff" p-id="29824"></path></svg>
+{{ app }}
+{% endblock %}
+
+{% block ms-auto %}
+<div class="btn-list">
+    <div class="input-icon">
+        <span class="input-icon-addon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="10" cy="10" r="7" /><line x1="21" y1="21" x2="15" y2="15" /></svg>
+        </span>
+        <input oninput="searchVersion(this.value)" type="text" value="" class="form-control" placeholder="搜索版本" aria-label="Search in website">
+    </div>
+    <a  class="btn btn-teal d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-create">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        版本
+    </a>
+</div>
+
+
+{% endblock %}
+
+{% block page_body %}
+
+{% if version_nums > 0 %}
+
+<div class="row row-cards">
+    <div class="app-card">
+        <div class="table-responsive card" style="font-size: 15px">
+            <table id="app-table" class="table card-table table-vcenter">
+                <thead>
+                <tr>
+                    <th style="font-size: 13px;">APP</th>
+                    <th style="font-size: 13px;">版本</th>
+                    <th style="font-size: 13px;">创建时间</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+            {% for version in versions %}
+            <tr>
+
+                <td>{{ version.pkgname }}</td>
+                <td>{{ version.version }}</td>
+                <td>{{ version.ctime | date:"Y-m-d H:i:s" }}</td>
+                <td>
+                    <div class="btn-list flex-nowrap">
+                        <a onclick="editeVersion('{{ version.version }}')" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modal-edit">
+                            <svg t="1638686685621" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7671" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#5866C7" p-id="7672"></path><path d="M466.304 192l-0.064 64H320a64 64 0 0 0-63.552 56.512L256 320v384a64 64 0 0 0 56.512 63.552L320 768h384a64 64 0 0 0 63.552-56.512L768 704V557.696h64v-239.36V704a128 128 0 0 1-128 128H320a128 128 0 0 1-128-128V320a128 128 0 0 1 128-128h146.304z" fill="#FFFFFF" p-id="7673"></path><path d="M788.992 267.008a32 32 0 0 1 0 45.248l-316.8 316.8a32 32 0 0 1-45.184-45.312l316.8-316.8a32 32 0 0 1 45.184 0z" fill="#FFFFFF" p-id="7674"></path></svg>
+                            编辑
+                        </a>
+                        <a onclick="removeVersion('{{ version.version }}')" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modal-danger">
+                            <svg t="1635400029781" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17941" width="200" height="200"><path d="M877.79 217.23H624.22c0-36.02-29.2-65.23-65.23-65.23H465c-36.02 0-65.23 29.2-65.23 65.23H146.21c-18.01 0-32.61 14.6-32.61 32.61 0 18.01 14.6 32.61 32.61 32.61h49.75l14.43 528.79c1.06 33.91 25.21 60.76 54.64 60.76h493.93c29.43 0 53.58-26.86 54.64-60.76l14.48-528.79h49.7c18.01 0 32.61-14.6 32.61-32.61 0.01-18.01-14.59-32.61-32.6-32.61zM364.24 748.41c-17.98 0.82-33.4-10.01-34.44-24.19L308 427.56c-1.04-14.18 12.69-26.34 30.67-27.16 17.98-0.82 33.4 10.01 34.45 24.19l21.8 296.67c1.04 14.17-12.7 26.33-30.68 27.15z m180.37-25.42c0 14.2-14.6 25.72-32.61 25.72-18.01 0-32.61-11.51-32.61-25.72V425.83c0-14.2 14.6-25.72 32.61-25.72 18.01 0 32.61 11.51 32.61 25.72v297.16zM716 427.56l-21.8 296.67c-1.04 14.18-16.46 25.01-34.44 24.19-17.98-0.82-31.71-12.98-30.67-27.16l21.8-296.67c1.04-14.18 16.46-25.01 34.44-24.19 17.98 0.82 31.72 12.98 30.67 27.16z" fill="#FF5D5D" p-id="17942"></path></svg>
+                            删除
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+<div class="empty">
+    <div class="empty-img">
+        <?xml version="1.0" encoding="UTF-8"?>
+        <svg width="244px" height="208px" viewBox="0 0 244 208" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="亮背景时使用" transform="translate(-544.000000, -904.000000)">
+                    <g id="暂无相关搜索、搜索、帮助、疑问" transform="translate(544.000000, 904.000000)">
+                        <g id="背景/彩">
+                            <g id="-">
+                                <g id="编组" transform="translate(28.400000, 18.400000)">
+                                    <polyline id="路径" stroke="#DEF5FF" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" points="121.6 27.4476562 49.6 71.0238281 121.6 66.6 129.6 66.6 72.167827 114.6"></polyline>
+                                    <path d="M1.6,146.2 C0.7163444,146.2 -5.68434189e-14,145.483656 -5.68434189e-14,144.6 C-5.68434189e-14,143.716344 0.7163444,143 1.6,143 L141.6,143 C142.483656,143 143.2,143.716344 143.2,144.6 C143.2,145.483656 142.483656,146.2 141.6,146.2 L1.6,146.2 Z M149.6,146.2 C148.716344,146.2 148,145.483656 148,144.6 C148,143.716344 148.716344,143 149.6,143 L154.6,143 C155.483656,143 156.2,143.716344 156.2,144.6 C156.2,145.483656 155.483656,146.2 154.6,146.2 L149.6,146.2 Z M167.6,146.2 C166.716344,146.2 166,145.483656 166,144.6 C166,143.716344 166.716344,143 167.6,143 L185.6,143 C186.483656,143 187.2,143.716344 187.2,144.6 C187.2,145.483656 186.483656,146.2 185.6,146.2 L167.6,146.2 Z M47.6,161.2 C46.7163444,161.2 46,160.483656 46,159.6 C46,158.716344 46.7163444,158 47.6,158 L61.6,158 C62.4836556,158 63.2,158.716344 63.2,159.6 C63.2,160.483656 62.4836556,161.2 61.6,161.2 L47.6,161.2 Z M70.6,161.2 C69.7163444,161.2 69,160.483656 69,159.6 C69,158.716344 69.7163444,158 70.6,158 L131.6,158 C132.483656,158 133.2,158.716344 133.2,159.6 C133.2,160.483656 132.483656,161.2 131.6,161.2 L70.6,161.2 Z M160,105.6 C160,103.466667 163.2,103.466667 163.2,105.6 L163.2,111.6 C163.2,112.483656 162.483656,113.2 161.6,113.2 L155.6,113.2 C153.466667,113.2 153.466667,110 155.6,110 L160,110 L160,105.6 Z M163.2,117.6 C163.2,119.733333 160,119.733333 160,117.6 L160,111.6 C160,110.716344 160.716344,110 161.6,110 L167.6,110 C169.733333,110 169.733333,113.2 167.6,113.2 L163.2,113.2 L163.2,117.6 Z M8,57.6 C8,55.4666667 11.2,55.4666667 11.2,57.6 L11.2,63.6 C11.2,64.4836556 10.4836556,65.2 9.6,65.2 L3.6,65.2 C1.46666667,65.2 1.46666667,62 3.6,62 L8,62 L8,57.6 Z M156.2,7 L161.6,7 C163.733333,7 163.733333,10.2 161.6,10.2 L156.2,10.2 L156.2,15.6 C156.2,17.7333333 153,17.7333333 153,15.6 L153,10.2 L147.6,10.2 C145.466667,10.2 145.466667,7 147.6,7 L153,7 L153,1.6 C153,-0.533333333 156.2,-0.533333333 156.2,1.6 L156.2,7 Z M11.2,69.6 C11.2,71.7333333 8,71.7333333 8,69.6 L8,63.6 C8,62.7163444 8.7163444,62 9.6,62 L15.6,62 C17.7333333,62 17.7333333,65.2 15.6,65.2 L11.2,65.2 L11.2,69.6 Z" id="Path-2" fill="#333745" fill-rule="nonzero"></path>
+                                    <path d="M28.1857864,122.286292 C29.1285955,121.343482 30.542809,122.757696 29.6,123.700505 L27.4786797,125.821825 C27.0881554,126.21235 26.4549904,126.21235 26.0644661,125.821825 L23.9431458,123.700505 C23.0003367,122.757696 24.4145503,121.343482 25.3573593,122.286292 L26.7715729,123.700505 L28.1857864,122.286292 Z M25.3573593,127.943146 C24.4145503,128.885955 23.0003367,127.471741 23.9431458,126.528932 L26.0644661,124.407612 C26.4549904,124.017088 27.0881554,124.017088 27.4786797,124.407612 L29.6,126.528932 C30.542809,127.471741 29.1285955,128.885955 28.1857864,127.943146 L26.7715729,126.528932 L25.3573593,127.943146 Z M45.8426407,17.6 C46.7854497,16.657191 48.1996633,18.0714045 47.2568542,19.0142136 L45.1355339,21.1355339 C44.7450096,21.5260582 44.1118446,21.5260582 43.7213203,21.1355339 L41.6,19.0142136 C40.657191,18.0714045 42.0714045,16.657191 43.0142136,17.6 L44.4284271,19.0142136 L45.8426407,17.6 Z M43.0142136,23.2568542 C42.0714045,24.1996633 40.657191,22.7854497 41.6,21.8426407 L43.7213203,19.7213203 C44.1118446,19.3307961 44.7450096,19.3307961 45.1355339,19.7213203 L47.2568542,21.8426407 C48.1996633,22.7854497 46.7854497,24.1996633 45.8426407,23.2568542 L44.4284271,21.8426407 L43.0142136,23.2568542 Z" id="Path复制" fill="#657180" fill-rule="nonzero"></path>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="Group-6" transform="translate(74.000000, 58.000000)">
+                            <g id="分组">
+                                <path d="M6,-1.0658141e-14 L70,-1.0658141e-14 C73.3137085,-1.12668594e-14 76,2.6862915 76,6 L76,84 C76,87.3137085 73.3137085,90 70,90 L6,90 C2.6862915,90 4.05812251e-16,87.3137085 0,84 L0,6 C-4.05812251e-16,2.6862915 2.6862915,-1.00494227e-14 6,-1.0658141e-14 Z" id="矩形" fill="#FDFFED"></path>
+                                <path d="M76,78.5908203 L76,84 C76,87.3137085 73.3137085,90 70,90 L6,90 C2.6862915,90 4.05812251e-16,87.3137085 0,84 L0,6 C-4.05812251e-16,2.6862915 2.6862915,-1.00494227e-14 6,-1.0658141e-14 L6,-1.0658141e-14 L70,-1.0658141e-14 C73.3137085,-1.12668594e-14 76,2.6862915 76,6 L76,6" id="路径" stroke="#333745" stroke-width="3.2" stroke-linecap="round"></path>
+                                <path d="M15.6,53.6 L25.6,53.6 L15.6,53.6 Z M15.6,39.6 L23.6,39.6 L15.6,39.6 Z M15.6,25.6 L27.6,25.6 L15.6,25.6 Z" id="Stroke-16" stroke="#333745" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <g id="分组-2" transform="translate(30.000000, 8.000000)">
+                                <path d="M53.6900461,50.0203149 L65.6900461,50.0203149 L65.6740471,71.8249332 C65.6716152,75.1393527 62.9840651,77.8249316 59.6696447,77.8249316 L59.6696447,77.8249316 C56.3583667,77.8249316 53.6740455,75.1406104 53.6740455,71.8293325 C53.6740455,71.827866 53.6740461,71.8263996 53.6740471,71.8249332 L53.6900461,50.0203149 Z" id="矩形" stroke="#333745" stroke-width="3.2" fill="#D0E639" transform="translate(59.679845, 63.922623) rotate(-42.000000) translate(-59.679845, -63.922623) "></path>
+                                <circle id="椭圆形" stroke="#333745" stroke-width="3.2" fill="#D0E639" cx="33" cy="33" r="33"></circle>
+                                <circle id="椭圆形-copy" stroke="#333745" stroke-width="3.2" fill="#FBFFE3" cx="33" cy="33" r="25"></circle>
+                                <path d="M35.2263184,39.37 C34.6182335,39.5850928 31.4098378,39.6020605 30.8698378,39.37 C30.3298378,39.1379395 30.2698378,38.86 30.2698378,37.99 C30.2698378,35.92 30.6298378,34.72 31.5898378,33.55 C32.3098378,32.71 32.5498378,32.53 34.6798378,31.24 C36.1498378,30.37 36.6298378,29.74 36.6298378,28.75 C36.6298378,27.34 35.5798378,26.5 33.7798378,26.5 C32.4298378,26.5 31.4398378,26.98 30.8698378,27.91 C30.5698378,28.39 30.3898378,28.5682568 30.3298378,29.74 C30.2698378,30.9117432 23.9638672,31.24 24.1498378,29.17 C24.3358084,27.1 24.9298378,25.84 26.0698378,24.58 C27.8098378,22.6 30.4798378,21.58 33.9298378,21.58 C39.4498378,21.58 42.8998378,24.19 42.8998378,28.33 C42.8998378,30.16 42.2998378,31.57 41.0398378,32.74 C40.3198378,33.4 40.0198378,33.61 37.4098378,35.23 C36.1498378,36.04 35.6998378,36.82 35.6998378,38.2 C35.6998378,38.56 35.8344032,39.1549072 35.2263184,39.37 Z M32.8348378,41.41 L33.1948378,41.41 C34.7605651,41.41 36.0298378,42.6792727 36.0298378,44.245 L36.0298378,44.245 C36.0298378,45.8107273 34.7605651,47.08 33.1948378,47.08 L32.8348378,47.08 C31.2691105,47.08 29.9998378,45.8107273 29.9998378,44.245 L29.9998378,44.245 C29.9998378,42.6792727 31.2691105,41.41 32.8348378,41.41 Z" id="？" fill="#333745" fill-rule="nonzero"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    </div>
+    <p class="empty-title">未发现版本记录</p>
+</div>
+
+{% endif %}
+
+<div class="modal modal-blur fade" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">创建版本</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="api_content">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        版本
+                                    </span>
+                                    <input id="create-version" type="text" class="form-control"  placeholder="请输入版本名称.."  autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a  class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                <a onclick="createVersion()" class="btn btn-primary ms-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    创建
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal modal-blur fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">编辑版本</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="api_content">
+                            <div class="col apiform">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        版本
+                                    </span>
+                                    <input id="edit-version" type="text" class="form-control"  placeholder="请输入版本名称.."  autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                <a id="edit-confirm" class="btn btn-info ms-auto">
+                    <svg t="1638686890624" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8488" width="200" height="200"><path d="M286.487273 759.854545c-5.818182 0-11.403636-2.094545-16.058182-6.283636a354.816 354.816 0 0 1-111.010909-257.163636c0-30.487273 3.956364-60.741818 11.636363-90.065455 3.258182-12.567273 16.058182-19.781818 28.392728-16.523636s19.781818 16.058182 16.523636 28.392727c-6.749091 25.367273-10.007273 51.898182-10.007273 78.429091 0 85.410909 34.210909 164.770909 96.349091 223.185455a23.179636 23.179636 0 0 1-15.825454 40.02909zM510.370909 848.756364c-6.516364 0-13.032727-2.792727-17.454545-7.68s-6.981818-11.170909-6.283637-17.687273l4.189091-53.527273-89.832727 43.054546c-6.981818 10.705455-20.712727 13.265455-31.650909 6.283636-10.705455-6.981818-13.498182-21.876364-6.516364-32.814545 4.421818-6.749091 10.472727-12.101818 18.152727-15.592728l92.16-44.218182c14.429091-6.981818 31.185455-5.818182 44.683637 3.49091 13.265455 9.076364 20.712727 24.669091 19.549091 40.727272l-2.327273 30.021818C691.432727 788.247273 814.545455 656.523636 814.545455 496.407273c0-90.298182-39.563636-175.476364-108.218182-233.890909a23.505455 23.505455 0 0 1-2.792728-32.814546c8.378182-9.774545 23.04-10.938182 32.814546-2.792727 79.127273 67.258182 124.741818 165.469091 124.741818 269.265454 0 194.327273-157.323636 352.581818-350.72 352.581819z m-19.549091-81.221819zM261.818182 305.570909a23.249455 23.249455 0 0 1-17.687273-38.4c66.792727-78.196364 163.84-123.112727 266.24-123.112727 6.516364 0 13.032727 2.792727 17.454546 7.68s6.981818 11.170909 6.283636 17.687273l-4.189091 53.527272 89.832727-43.054545c6.981818-10.705455 20.945455-13.265455 31.650909-6.283637 10.705455 6.981818 13.498182 21.876364 6.516364 32.814546-4.421818 6.749091-10.472727 12.101818-18.152727 15.592727l-92.16 44.218182c-14.661818 6.981818-31.185455 5.585455-44.683637-3.490909-13.265455-9.076364-20.712727-24.669091-19.549091-40.727273l2.327273-30.021818c-79.825455 6.516364-153.832727 44.218182-206.196363 105.658182-4.654545 5.12-11.170909 7.912727-17.687273 7.912727z" fill="#ffffff" p-id="8489"></path><path d="M528.290909 270.429091c-8.843636 0-17.687273-2.792727-25.367273-7.912727-13.265455-9.076364-20.712727-24.669091-19.549091-40.727273l7.912728-102.4c1.163636-16.290909 10.705455-30.254545 25.367272-37.236364 14.661818-6.981818 31.650909-5.818182 45.149091 3.258182l84.48 58.181818c20.48 14.661818 25.6 42.821818 11.403637 63.069091-3.956364 6.050909-10.007273 11.403636-17.687273 15.127273l-92.16 44.218182c-6.283636 2.792727-13.032727 4.421818-19.549091 4.421818z m9.309091-145.454546l-7.68 98.676364 89.832727-43.985454-42.123636-26.763637-40.029091-27.927273zM506.647273 223.418182zM484.305455 915.316364c-8.843636 0-17.687273-2.56-25.367273-7.912728 0 0-0.232727 0-0.232727-0.232727l-84.247273-58.181818a45.777455 45.777455 0 0 1-11.403637-63.069091c3.956364-6.050909 10.007273-11.403636 17.687273-14.894545l92.16-44.218182c14.429091-6.981818 31.185455-5.818182 44.683637 3.490909 13.265455 9.076364 20.712727 24.669091 19.54909 40.727273l-7.912727 102.4c-1.163636 16.290909-10.705455 30.254545-25.367273 37.236363-6.050909 3.025455-12.8 4.654545-19.54909 4.654546z m6.283636-145.454546l-89.832727 43.054546 42.123636 26.763636 40.727273 28.392727 6.981818-98.210909z m0.232727-2.327273z" fill="#ffffff" p-id="8490"></path></svg>
+                    更新
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-blur fade" id="modal-danger" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" /></svg>
+                <h3>确认删除?</h3>
+                <div class="text-muted version-name"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col">
+                            <a  class="btn btn-white w-100" data-bs-dismiss="modal">
+                            取消
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a  id="remove-confirm" class="btn btn-danger w-100">
+                            确认
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+    var app_table = maketable({Table:'#app-table',paging:false});
+
+    function searchVersion(keywords) {
+        if (keywords){
+            app_table.column(1).search(keywords).draw();
+
+        }else{
+            app_table.column(1).search('').draw();
+        }
+    }
+
+
+    function createVersion() {
+        var pkgname = '{{ app }}';
+        var version = $("#create-version").val().trim();
+        if(version){
+            $.ajax({
+                url: "/package/api/version/create",
+                type: "POST",
+                async: false,
+                data: {
+                    pkgname: pkgname,
+                    version: version
+                },
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                },
+                complete: function () {
+                    swal.close();
+                },
+                success: function (data) {
+                    if (data['status'] == 1) {
+                        location.reload();
+                    }
+                    else{
+                        Spop(SPOP_TYPE['error'],data['msg']);
+                    }
+                }
+            });
+        }else {
+            Spop(SPOP_TYPE['error'],'版本名称不能为空');
+        }
+    }
+
+    function editeVersion(old_version) {
+        $("#edit-version").val(old_version);
+        var pkgname = '{{ app }}';
+        $('#edit-confirm').on('click', function () {
+            var new_version = $("#edit-version").val().trim();
+            if(new_version){
+                $.ajax({
+                    url: "/package/api/version/edit",
+                    type: "POST",
+                    async: false,
+                    data: {
+                        pkgname: pkgname,
+                        old_version: old_version,
+                        new_version: new_version
+                    },
+                    beforeSend: function () {
+                        SwalLoading('Loading');
+                    },
+                    complete: function () {
+                        swal.close();
+                    },
+                    success: function (data) {
+                        if (data['status'] == 1) {
+                            location.reload();
+                        }
+                        else{
+                            Spop(SPOP_TYPE['error'],data['msg']);
+                        }
+                    }
+                });
+            }else {
+                Spop(SPOP_TYPE['error'],'版本名称不能为空');
+            }
+        })
+    }
+
+    function removeVersion(version) {
+
+        $('.version-name').text(version);
+
+        $('#remove-confirm').on('click', function () {
+            $.ajax({
+                url: "/package/api/version/delete",
+                type: "POST",
+                async: false,
+                data: {
+                    pkgname: '{{ app }}',
+                    version: version
+                },
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                },
+                complete: function () {
+                    swal.close();
+                },
+                success: function (data) {
+                    if (data['status'] == 1) {
+                        location.reload();
+                    }
+                    else{
+                        Spop(SPOP_TYPE['error'],data['msg']);
+                    }
+                }
+            });
+        });
+    }
+
+</script>
+
+{% endblock %}
+
+
+
+

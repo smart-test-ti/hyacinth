@@ -42,7 +42,7 @@
             {% for user in users %}
             <tr>
                 {% if user.avatar and user.avatar != "" %}
-                <td><span class="avatar avatar-sm" style="background-image: url(/static/logo/{{ user.avatar }});background-color:transparent;"></span></td>
+                <td><span class="avatar avatar-sm" style="background-image: url(/static/avatar/{{ user.username }}/{{ user.avatar }});background-color:transparent;"></span></td>
                 {% else %}
                 <td><span class="avatar avatar-sm" style="background-image: url(/static/image/avatar.png);background-color:transparent;"></span></td>
                 {% endif %}

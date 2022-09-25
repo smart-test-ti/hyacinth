@@ -24,7 +24,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 2147483648
 SECRET_KEY = 'django-insecure-kbnw%$@c503l6yieh=^n9_@hvin0zm$%h-y1=1qps*h)7qucbm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -156,6 +156,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

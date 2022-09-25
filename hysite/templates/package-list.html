@@ -9,8 +9,13 @@
 
 {% block ms-auto %}
 <select id="search-version" class="select2-selection--single form-control" data-placeholder="请选择版本" style="width: auto;min-width: 150px">
+    {% if version != 'None' %}
+    <option>{{ version }}</option>
+    {% endif %}
     {% for versions in version_list %}
+    {% if versions.version != version %}
     <option>{{ versions.version }}</option>
+    {% endif %}
     {% endfor %}
 </select>
 {% endblock %}
@@ -37,13 +42,13 @@
                                 </a>
                             </div>
                             <div class="col-auto mt-2">
-                                <a  class="btn btn-default">
+                                <a  class="btn btn-default" onclick="createQrcode('{{ package_file.filepath }}')">
                                     <svg t="1662462699219" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8241" width="2000" height="2000"><path d="M260 260m-196 0a196 196 0 1 0 392 0 196 196 0 1 0-392 0Z" fill="#8C9EFF" p-id="8242"></path><path d="M260 260m-84 0a84 84 0 1 0 168 0 84 84 0 1 0-168 0Z" fill="#313FA0" p-id="8243"></path><path d="M260 764m-196 0a196 196 0 1 0 392 0 196 196 0 1 0-392 0Z" fill="#8C9EFF" p-id="8244"></path><path d="M260 764m-84 0a84 84 0 1 0 168 0 84 84 0 1 0-168 0Z" fill="#313FA0" p-id="8245"></path><path d="M764 260m-196 0a196 196 0 1 0 392 0 196 196 0 1 0-392 0Z" fill="#8C9EFF" p-id="8246"></path><path d="M764 260m-84 0a84 84 0 1 0 168 0 84 84 0 1 0-168 0Z" fill="#313FA0" p-id="8247"></path><path d="M624 624m-56 0a56 56 0 1 0 112 0 56 56 0 1 0-112 0Z" fill="#FFD600" p-id="8248"></path><path d="M904 624m-56 0a56 56 0 1 0 112 0 56 56 0 1 0-112 0Z" fill="#FFD600" p-id="8249"></path><path d="M624 904m-56 0a56 56 0 1 0 112 0 56 56 0 1 0-112 0Z" fill="#FFD600" p-id="8250"></path><path d="M764 820c-23.1 0-42-18.9-42-42v-28c0-23.1 18.9-42 42-42s42 18.9 42 42v28c0 23.1-18.9 42-42 42zM918 736c-23.1 0-42 18.9-42 42v70c0 15.46-12.54 28-28 28h-68.16c-20.32 0-39.04 13.61-43 33.54C731.53 936.3 752.13 960 778 960h140c23.1 0 42-18.9 42-42V778c0-23.1-18.9-42-42-42z" fill="#FFD600" p-id="8251"></path></svg>
                                     二维码
                                 </a>
                             </div>
                             <div class="col-auto mt-2">
-                                <a class="btn btn-default">
+                                <a class="btn btn-default" onclick="createShare('{{ app }}','{{ version }}','{{ package_file.filename }}')">
                                     <svg t="1662287020701" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="34233" width="2000" height="2000"><path d="M363.91 438.358l265.776-153.45 18.85 32.648-265.775 153.45z" fill="#4E30DC" p-id="34234"></path><path d="M380.8 478.5l-24.3-42.1 275.3-159 24.3 42.1-275.3 159z m-9.3-38.1l13.3 23.1 256.3-148-13.3-23.1-256.3 148zM361.676 595.73l18.85-32.647L646.3 716.533l-18.85 32.648z" fill="#4E30DC" p-id="34235"></path><path d="M629.5 756.7l-275.3-159 24.3-42.1 275.3 159-24.3 42.1z m-260.3-163l256.3 148 13.3-23.1-256.3-148-13.3 23.1z" fill="#4E30DC" p-id="34236"></path><path d="M267.1 368.8c-79.8 0-144.6 64.9-144.6 144.7 0 79.7 64.9 144.6 144.6 144.6 79.7 0 144.6-64.9 144.6-144.6 0-79.8-64.8-144.7-144.6-144.7z m0 240.6c-52.9 0-96-43-96-96 0-52.9 43.1-96 96-96s96 43.1 96 96c0 53-43.1 96-96 96z" fill="#FF4E7D" p-id="34237"></path><path d="M749.6 632.7c-76.7 0-139.1 62.4-139.1 139.1 0 76.7 62.4 139.2 139.1 139.2 76.7 0 139.1-62.4 139.1-139.2 0-76.7-62.4-139.1-139.1-139.1zM851 771.9c0 56-45.5 101.5-101.5 101.5S648 827.9 648 771.9c0-55.9 45.5-101.5 101.5-101.5S851 715.9 851 771.9z" fill="#4E30DC" p-id="34238"></path><path d="M749.6 916.5c-79.8 0-144.6-64.9-144.6-144.7 0-79.7 64.9-144.6 144.6-144.6 79.7 0 144.6 64.9 144.6 144.6 0 79.8-64.9 144.7-144.6 144.7z m0-278.3c-73.7 0-133.6 59.9-133.6 133.6 0 73.7 60 133.7 133.6 133.7 73.7 0 133.6-60 133.6-133.7 0-73.6-59.9-133.6-133.6-133.6z m0 240.7c-59 0-107-48-107-107s48-107 107-107 107 48 107 107c-0.1 59-48 107-107 107z m0-203c-52.9 0-96 43-96 96 0 52.9 43.1 96 96 96s96-43.1 96-96c-0.1-52.9-43.1-96-96-96z" fill="#4E30DC" p-id="34239"></path><path d="M749.6 113.8c-76.7 0-139.1 62.4-139.1 139.1 0 76.7 62.4 139.2 139.1 139.2 76.7 0 139.1-62.4 139.1-139.2 0-76.7-62.4-139.1-139.1-139.1zM851 252.9c0 56-45.5 101.5-101.5 101.5S648 308.9 648 252.9c0-55.9 45.5-101.5 101.5-101.5S851 196.9 851 252.9z" fill="#4E30DC" p-id="34240"></path><path d="M749.6 397.5c-79.8 0-144.6-64.9-144.6-144.7 0-79.7 64.9-144.6 144.6-144.6 79.7 0 144.6 64.9 144.6 144.6 0 79.9-64.9 144.7-144.6 144.7z m0-278.2c-73.7 0-133.6 59.9-133.6 133.6 0 73.7 60 133.7 133.6 133.7 73.7 0 133.6-60 133.6-133.7 0-73.7-59.9-133.6-133.6-133.6z m0 240.6c-59 0-107-48-107-107s48-107 107-107 107 48 107 107c-0.1 59-48 107-107 107z m0-203c-52.9 0-96 43-96 96 0 52.9 43.1 96 96 96s96-43.1 96-96c-0.1-52.9-43.1-96-96-96z" fill="#4E30DC" p-id="34241"></path></svg>
                                     分享
                                 </a>
@@ -55,7 +60,7 @@
                                 </a>
                             </div>
                         </div>
-                        <!--<div  id="qrcode"></div>-->
+                        <div  id="make-content" class="mt-3" style="display: none"></div>
                     </div>
                 </div>
             </div>
@@ -98,7 +103,7 @@
         </g>
         </svg>
     </div>
-    <p class="empty-title">该应用没有版本记录</p>
+    <p class="empty-title">该版本没有文件记录</p>
 </div>
 {% endif %}
 <div class="modal modal-blur fade" id="modal-danger" tabindex="-1" role="dialog" aria-hidden="true">
@@ -171,15 +176,46 @@
         });
     }
 
-// var qrcode = new QRCode(document.getElementById("qrcode"), {
-// 	text: "https://github.com/",
-// 	width: 280,
-// 	height: 280,
-// 	colorDark : "#303030",
-// 	colorLight : "#ffffff",
-// 	correctLevel : QRCode.CorrectLevel.H
-// });
+    function createShare(pkgname, version, filename) {
+        $.ajax({
+            url: "/package/api/file/share",
+            type: "POST",
+            async: false,
+            data: {
+                pkgname: pkgname,
+                version: version,
+                filename: filename,
+            },
+            beforeSend: function () {
+                SwalLoading('Loading');
+            },
+            complete: function () {
+                swal.close();
+            },
+            success: function (data) {
+                if (data['status'] == 1) {
+                    $('#make-content').show();
+                    $('#make-content').text(data['share_path']);
+                }
+                else{
+                    Spop(SPOP_TYPE['error'],data['msg']);
+                }
+            }
+        });
+    }
 
+    function createQrcode(filepath) {
+        $('#make-content').show();
+        $('#make-content').text();
+        new QRCode(document.getElementById("make-content"), {
+            text: filepath,
+            width: 280,
+            height: 280,
+            colorDark : "#303030",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    }
 
 </script>
 {% endblock %}

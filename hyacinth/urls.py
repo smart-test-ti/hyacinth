@@ -18,10 +18,14 @@ from django.urls import path, include
 from django.views import static
 from django.conf import settings
 from django.urls import re_path as url
+from hysite.views import error
+
+handler404 = error.Error.error_404_page
+handler500 = error.Error.error_500_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('hysite.urls')),
     path('', include('social_django.urls', namespace='social')),
-    url(r'^static/(?P<path>.*)$', static.serve,{'document_root': settings.STATIC_ROOT}, name='static'),
+    url(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
 ]
