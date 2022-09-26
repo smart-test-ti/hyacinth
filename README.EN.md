@@ -13,11 +13,29 @@ Hyacinth is a lightweight, free APP package internal testing platform, and suppo
 <img src="https://cdn.nlark.com/yuque/0/2022/png/153412/1664101122085-064d6607-3a25-4097-9c63-71ddb62a643b.png?x-oss-process=image%2Fresize%2Cw_1500%2Climit_0"  width="100%">
 
 ## Initialization
-```
+```bash
+git clone git@github.com:smart-test-ti/hyacinth.git
+
 sh initialize.sh
 ```
-## Run locally
+## Deploy
+#### uWSGI
+```bash
+pip3 install uwsgi
 
+uwsgi --ini uwsgi.ini
+```
+#### nohup
+```bash
+nohup python3 manage.py runserver 0.0.0.0:60006 >run.log 2>&1 &
+```
+
+## Run locally
 ```
 sh startup.sh
+```
+
+## Supports
+```
+PC和H5
 ```

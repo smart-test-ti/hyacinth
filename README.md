@@ -31,7 +31,7 @@ nohup python3 manage.py runserver 0.0.0.0:60006 >run.log 2>&1 &
 ```
 
 ## 本地运行
-```bash
+```bash-m '
 sh startup.sh
 ```
 
