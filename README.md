@@ -12,6 +12,11 @@
 
 <img src="https://cdn.nlark.com/yuque/0/2022/png/153412/1664101122085-064d6607-3a25-4097-9c63-71ddb62a643b.png?x-oss-process=image%2Fresize%2Cw_1500%2Climit_0"  width="100%">
 
+<br>
+<br>
+
+<a href="./doc.md">使用文档</a>
+
 ## 初始化
 ```bash
 git clone git@github.com:smart-test-ti/hyacinth.git

@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "e2e826b1-f40a-4524-aa98-7e6097909303",
+		"name": "风信子",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "上传版本文件",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/rafa/Downloads/linkbox_gp_1.00.04_10004001_20220601214159_release.apk"
+						},
+						{
+							"key": "key",
+							"value": "tpONqU3jnv",
+							"type": "text"
+						},
+						{
+							"key": "version",
+							"value": "1.12.00",
+							"type": "text"
+						},
+						{
+							"key": "build_num",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.13.106:8899/package/api/file/create",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"13",
+						"106"
+					],
+					"port": "8899",
+					"path": [
+						"package",
+						"api",
+						"file",
+						"create"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "上传版本文件"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

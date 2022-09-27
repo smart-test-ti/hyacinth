@@ -233,7 +233,7 @@ class List:
                     if not versions:
                         models.package_version_list(pkgname=app, version=version).save()
                         models.package_info.objects.filter(pkgname=app).update(newest_version=version)
-                    models.package_log(username='api', pkgname=app, version=version, action=f'上传文件{filename}').save()
+                    models.package_log(username=version, pkgname=app, version=version, action=f'上传了文件{file.name}').save()
                     result = {'status': 1, 'msg': 'success', 'download_path': download_path}
                 else:
                     result = {'status': 0, 'msg': 'filename existed'}

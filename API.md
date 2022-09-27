@@ -33,3 +33,7 @@ response = requests.post(url=url, files=files, data=data)
     "download_path": "http://{ip}:{host}/static/apk/{app}/{version}/{filename}"
 }
 ```
+- Postman
+```
+将postman_collection.json文件导入你的Postman中可以看到示例
+```
