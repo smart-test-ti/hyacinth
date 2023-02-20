@@ -294,7 +294,7 @@ class List:
                                       filename=filename,
                                       filepath=filepath).save()
             host = request.META['HTTP_HOST']
-            share_path = f'http://{host}/package/share/token={token}'
+            share_path = 'http://{host}/package/share/token={token}'.format(host=host, token=token)
             result = {'status': 1, 'msg': 'success', 'share_path': share_path}
         except Exception as e:
             result = {'status': 0, 'msg': str(e)}

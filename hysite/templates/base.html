@@ -104,6 +104,12 @@
         })
     }
 
+    function getCurDate(){
+        var date = new Date();
+        var year = date.getFullYear();
+        return year
+    };
+
     function maketable({Table=null, pageLength=10,paging=true,
                            lengthChange=true,searching=true,columns=null,data=null}) {
         let table = $(Table).DataTable({
@@ -137,5 +143,5 @@
     });
 </script>
 
-{% block script %}{% endblock %}
+{% block base_script %}{% endblock %}
 </body>

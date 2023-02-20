@@ -12,27 +12,30 @@
 
 <img src="https://cdn.nlark.com/yuque/0/2022/png/153412/1664101122085-064d6607-3a25-4097-9c63-71ddb62a643b.png?x-oss-process=image%2Fresize%2Cw_1500%2Climit_0"  width="100%">
 
+## 环境要求
+```bash
+Python 3.6+
+```
+
 ## 初始化
 ```bash
-git clone git@github.com:smart-test-ti/hyacinth.git
-
-sh initialize.sh
+macos/linux : sh initialize.sh
+windows : ./initialize.bat
 ```
 ## 部署
 #### uWSGI
 ```bash
-pip3 install uwsgi
-
+pip install uwsgi
 uwsgi --ini uwsgi.ini
 ```
 #### nohup
 ```bash
-nohup python3 manage.py runserver 0.0.0.0:60006 >run.log 2>&1 &
+nohup python manage.py runserver 0.0.0.0:60006 >run.log 2>&1 &
 ```
 
 ## 本地运行
 ```bash-m '
-sh startup.sh
+python startup.py
 ```
 
 ## 支持平台
