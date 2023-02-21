@@ -37,6 +37,7 @@ urlpatterns = [
 
 
     path('package/api/file/create', package.List.createVersionFileAPI, name='createVersionFileAPI'),
+    path('package/api/file/upload', package.List.uploadVersionFileAPI, name='uploadVersionFileAPI'),
     path('package/api/file/delete', package.List.deleteVersionFileAPI, name='deleteVersionFileAPI'),
     path('package/api/file/share', package.List.createShareLinkAPI, name='createShareLinkAPI'),
 

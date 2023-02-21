@@ -21,6 +21,9 @@ Python 3.6+
 ```bash
 macos/linux : sh initialize.sh
 windows : ./initialize.bat
+
+Note: The database will be initialized after execution, and the previous information will be cleared
+
 ```
 ## Deploy
 #### uWSGI

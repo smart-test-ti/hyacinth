@@ -1,7 +1,7 @@
 {% extends 'site-base.html' %}
 {% load static %}
-{% block title %}APP管理 - 风信子{% endblock %}
-{% block page_title %}APP管理{% endblock %}
+{% block title %}应用管理 - 风信子{% endblock %}
+{% block page_title %}应用管理{% endblock %}
 
 {% block ms-auto %}
 <div class="btn-list">
@@ -13,7 +13,7 @@
     </div>
     <a  class="btn btn-teal d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-new-app">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-        APP
+        应用
     </a>
 </div>
 
@@ -108,7 +108,13 @@
             </g>
         </svg>
     </div>
-    <p class="empty-title">未发现APP记录</p>
+    <p class="empty-title">未发现应用记录</p>
+    <div class="empty-action">
+        <a  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-new-app">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            创建应用
+        </a>
+    </div>
 </div>
 
 {% endif %}
@@ -117,7 +123,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">创建APP</h5>
+                <h5 class="modal-title">创建应用</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

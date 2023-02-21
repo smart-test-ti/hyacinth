@@ -49,6 +49,10 @@
                 <td>{{ version.ctime | date:"Y-m-d H:i:s" }}</td>
                 <td>
                     <div class="btn-list flex-nowrap">
+                        <a href="/package/list/app={{ version.pkgname }}&version={{ version.version }}" class="btn btn-default">
+                            <svg t="1676941120918" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="39171" width="50" height="50"><path d="M288 192v64H192a32 32 0 0 0-32 32v576a32 32 0 0 0 32 32h576a32 32 0 0 0 32-32v-96h64v128a64 64 0 0 1-64 64H160a64 64 0 0 1-64-64V256a64 64 0 0 1 64-64h128z" fill="#026BFF" p-id="39172"></path><path d="M288 64h576a64 64 0 0 1 64 64v608a64 64 0 0 1-64 64H288a64 64 0 0 1-64-64V128a64 64 0 0 1 64-64z m0 96v544a32 32 0 0 0 32 32h512a32 32 0 0 0 32-32V160a32 32 0 0 0-32-32H320a32 32 0 0 0-32 32z" fill="#026BFF" p-id="39173"></path></svg>
+                            文件
+                        </a>
                         <a onclick="editeVersion('{{ version.version }}')" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#modal-edit">
                             <svg t="1638686685621" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7671" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#5866C7" p-id="7672"></path><path d="M466.304 192l-0.064 64H320a64 64 0 0 0-63.552 56.512L256 320v384a64 64 0 0 0 56.512 63.552L320 768h384a64 64 0 0 0 63.552-56.512L768 704V557.696h64v-239.36V704a128 128 0 0 1-128 128H320a128 128 0 0 1-128-128V320a128 128 0 0 1 128-128h146.304z" fill="#FFFFFF" p-id="7673"></path><path d="M788.992 267.008a32 32 0 0 1 0 45.248l-316.8 316.8a32 32 0 0 1-45.184-45.312l316.8-316.8a32 32 0 0 1 45.184 0z" fill="#FFFFFF" p-id="7674"></path></svg>
                             编辑

@@ -1,23 +1,36 @@
 {% extends 'site-base.html' %}
 {% load static %}
-{% block title %}APP包列表 - 风信子{% endblock %}
+{% block title %}应用文件列表 - 风信子{% endblock %}
 {% block page_title %}
-<a class="active"  href="/package/home/app=all">上一页</a>
+<a class="active"  href="/package/home/app=all">应用列表</a>
 <svg t="1662281709490" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="29823" width="300" height="300"><path d="M558.933333 490.666667L384 665.6l59.733333 59.733333 234.666667-234.666666L443.733333 256 384 315.733333l174.933333 174.933334z" fill="#ffffff" p-id="29824"></path></svg>
 {{ app }}
 {% endblock %}
 
 {% block ms-auto %}
-<select id="search-version" class="select2-selection--single form-control" data-placeholder="请选择版本" style="width: auto;min-width: 150px">
+<div class="btn-list">
+    <select id="search-version" class="select2-selection--single form-control" data-placeholder="请选择版本" style="width: auto;min-width: 150px">
+        {% if version != 'None' %}
+        <option>{{ version }}</option>
+        {% endif %}
+        {% for versions in version_list %}
+        {% if versions.version != version %}
+        <option>{{ versions.version }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
     {% if version != 'None' %}
-    <option>{{ version }}</option>
+    <a  class="btn btn-teal d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-file">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        文件
+    </a>
+    {% else %}
+    <a  class="btn btn-teal d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-create-version">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+        版本
+    </a>
     {% endif %}
-    {% for versions in version_list %}
-    {% if versions.version != version %}
-    <option>{{ versions.version }}</option>
-    {% endif %}
-    {% endfor %}
-</select>
+</div>
 {% endblock %}
 
 {% block page_body %}
@@ -26,7 +39,7 @@
 <div class="space-y-4">
     {% for package_file in package_files %}
     <div class="build-version">
-        <h2 class="mb-3">Build Num #{{ package_file.build_num }}</h2>
+        <h2 class="mb-3">#{{ package_file.id }} &nbsp&nbsp&nbsp {{ package_file.ctime | date:"Y-m-d H:i:s" }}</h2>
         <div id="faq-1" class="accordion" role="tablist" aria-multiselectable="true">
             <div class="accordion-item">
                 <div  class="accordion-header" role="tab">
@@ -104,6 +117,21 @@
         </svg>
     </div>
     <p class="empty-title">该版本没有文件记录</p>
+    {% if version != 'None' %}
+    <div class="empty-action">
+        <a  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-upload-file">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            上传应用文件
+        </a>
+    </div>
+    {% else %}
+    <div class="empty-action">
+        <a  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-create-version">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            创建版本
+        </a>
+    </div>
+    {% endif %}
 </div>
 {% endif %}
 <div class="modal modal-blur fade" id="modal-danger" tabindex="-1" role="dialog" aria-hidden="true">
@@ -131,6 +159,67 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-blur fade" id="modal-create-version" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">创建版本</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="api_content">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        版本
+                                    </span>
+                                    <input id="create-version" type="text" class="form-control"  placeholder="请输入版本名称.."  autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a  class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                <a onclick="createVersion()" class="btn btn-primary ms-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    创建
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal modal-blur fade" id="modal-upload-file" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">上传文件</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form  method="post" enctype="multipart/form-data">
+                        <input type="file" id="select-file" class="form-control"   name="file" accept=".apk,.ipa">
+                    </form>
+                    <progress  id="upload-progress" class="progress progress-sm mt-3" value="0" max="100"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a  class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancel</a>
+                <a  class="btn btn-default ms-auto" onclick="uploadFile()">
+                    <svg t="1641460072887" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="22281" width="200" height="200"><path d="M753.2032 116.3264H271.104c-84.1728 0-152.6784 68.5056-152.6784 152.6784v487.936c0 84.1728 68.5056 152.6784 152.6784 152.6784h482.0992c84.1728 0 152.6784-68.5056 152.6784-152.6784v-487.936c0-84.1728-68.5056-152.6784-152.6784-152.6784z m-44.7488 549.7856a43.6224 43.6224 0 0 1-31.1808 13.1072c-11.0592 0-22.0672-4.1472-30.5664-12.4928l-94.0544-92.2112v169.2672c0 24.1152-19.5584 43.6736-43.6736 43.6736s-43.6736-19.5584-43.6736-43.6736v-163.072l-84.1728 83.6096c-17.1008 16.9984-44.8 16.896-61.7984-0.2048-16.9984-17.1008-16.896-44.8 0.2048-61.7984l155.1872-154.1632c20.2752-20.1216 53.3504-20.224 73.728-0.2048l159.4368 156.3136c17.2032 16.9472 17.4592 44.6464 0.5632 61.8496z m-26.2144-308.3776H346.1632c-24.1152 0-43.6736-19.5584-43.6736-43.6736s19.5584-43.6736 43.6736-43.6736h336.0768c24.1152 0 43.6736 19.5584 43.6736 43.6736s-19.5584 43.6736-43.6736 43.6736z" fill="#6C6CEA" p-id="22282"></path><path d="M753.2032 116.3264H271.104c-84.1728 0-152.6784 68.5056-152.6784 152.6784v487.936c0 84.1728 68.5056 152.6784 152.6784 152.6784h146.8928c274.0736-72.8064 476.0064-322.6112 476.0064-619.5712 0-32.0512-2.4064-63.5392-6.912-94.3616-26.0096-47.2576-76.2368-79.36-133.888-79.36z m-44.7488 549.7856a43.6224 43.6224 0 0 1-31.1808 13.1072c-11.0592 0-22.0672-4.1472-30.5664-12.4928l-94.0544-92.2112v169.2672c0 24.1152-19.5584 43.6736-43.6736 43.6736s-43.6736-19.5584-43.6736-43.6736v-163.072l-84.1728 83.6096c-17.1008 16.9984-44.8 16.896-61.7984-0.2048-16.9984-17.1008-16.896-44.8 0.2048-61.7984l155.1872-154.1632c20.2752-20.1216 53.3504-20.224 73.728-0.2048l159.4368 156.3136c17.2032 16.9472 17.4592 44.6464 0.5632 61.8496z m-26.2144-308.3776H346.1632c-24.1152 0-43.6736-19.5584-43.6736-43.6736s19.5584-43.6736 43.6736-43.6736h336.0768c24.1152 0 43.6736 19.5584 43.6736 43.6736s-19.5584 43.6736-43.6736 43.6736z" fill="#757BF2" p-id="22283"></path><path d="M118.4256 269.0048v433.1008c68.864-4.352 134.7584-19.5072 196.0448-43.8784-11.8784-17.1008-10.24-40.6528 5.0176-55.808l155.1872-154.1632c20.2752-20.1216 53.3504-20.224 73.728-0.2048l23.2448 22.784c28.7744-34.7648 53.9648-72.6528 74.9568-113.0496H346.1632c-24.1152 0-43.6736-19.5584-43.6736-43.6736s19.5584-43.6736 43.6736-43.6736h336.0768c0.6144 0 1.2288 0.0512 1.8432 0.1024 16.7936-48.9472 27.8016-100.608 32.256-154.1632H271.104c-84.1728-0.0512-152.6784 68.4544-152.6784 152.6272z" fill="#8486F8" p-id="22284"></path><path d="M118.4256 269.0048v175.0528c70.5536-23.3984 135.68-58.7264 192.9216-103.6288a43.30496 43.30496 0 0 1-8.9088-26.368c0-24.1152 19.5584-43.6736 43.6736-43.6736h41.1136c42.1888-45.6704 77.8752-97.536 105.4208-154.0608H271.104c-84.1728 0-152.6784 68.5056-152.6784 152.6784z" fill="#8D92F8" p-id="22285"></path></svg>
+                    开始上传
+                </a>
             </div>
         </div>
     </div>
@@ -215,6 +304,83 @@
             colorLight : "#ffffff",
             correctLevel : QRCode.CorrectLevel.H
         });
+    }
+
+    function createVersion() {
+        var pkgname = '{{ app }}';
+        var version = $("#create-version").val().trim();
+        if(version){
+            $.ajax({
+                url: "/package/api/version/create",
+                type: "POST",
+                async: false,
+                data: {
+                    pkgname: pkgname,
+                    version: version
+                },
+                beforeSend: function () {
+                    SwalLoading('Loading');
+                },
+                complete: function () {
+                    swal.close();
+                },
+                success: function (data) {
+                    if (data['status'] == 1) {
+                        location.reload();
+                        rute('/package/list/app='+pkgname+'&version='+version)
+                    }
+                    else{
+                        Spop(SPOP_TYPE['error'],data['msg']);
+                    }
+                }
+            });
+        }else {
+            Spop(SPOP_TYPE['error'],'版本名称不能为空');
+        }
+    }
+
+    function uploadFile() {
+        var formData = new FormData();
+        var fileObj = document.getElementById("select-file").files[0];
+        formData.append('file',fileObj);
+        formData.append('pkgname','{{ app }}');
+        formData.append('version','{{ version }}');
+        if(fileObj){
+            $.ajax({
+                url: "/package/api/file/upload",
+                type: "POST",
+                async:true,
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                beforeSend: function () {
+                    $('#select-file').attr('disabled',true);
+                    $('#upload-progress').show();
+                },
+                xhr: function() {
+                    let newxhr = new XMLHttpRequest();
+                    newxhr.upload.onprogress = function(e) {
+                        let percent = parseInt((e.loaded / e.total) * 100);
+                        document.getElementById("upload-progress").value = percent.toString();
+                    };
+                    return newxhr
+                },
+                complete: function(){
+                    $('#select-file').attr('disabled',false);
+                },
+                success: function (data) {
+                    if(data['status'] == 1){
+                        location.reload();
+                    }else {
+                        Spop(SPOP_TYPE.error,data['msg']);
+                        $('#select-file').empty();
+                    }
+                }
+            });
+        }else{
+            Spop(SPOP_TYPE.error,'没有选择文件')
+        }
     }
 
 </script>

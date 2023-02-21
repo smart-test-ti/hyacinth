@@ -40,6 +40,7 @@ class Home:
             logs = models.package_log.objects.all().order_by('-id')[:5]
         role = models.user.objects.filter(username=username).values("role").first()['role']
         avatar = models.user.objects.filter(username=username).values("avatar").first()['avatar']
+        logs = models.package_log.objects.all().order_by('-id')[:5]
         logo_path = os.path.join(BASE_DIR, "static", "logo")
         android_path = os.path.join(BASE_DIR, "static", "apk")
         ios_path = os.path.join(BASE_DIR, "static", "ipa")
@@ -146,6 +147,9 @@ class Home:
         splitext = os.path.splitext(filename)[-1][1:]
         current = time.strftime("%Y%m%d%H%M%S", time.localtime())
         new_file_name = current + '.' + splitext
+        logo_folder_path = os.path.join(BASE_DIR, "static", "logo")
+        if not os.path.exists(logo_folder_path):
+            os.mkdir(logo_folder_path)
         logo_path = os.path.join(BASE_DIR, "static", "logo", new_file_name)
         try:
             if not os.path.exists(logo_path):
@@ -194,54 +198,105 @@ class List:
         if share_data:
             app = models.package_share_info.objects.filter(token=token).values("pkgname").first()['pkgname']
             icon = models.package_info.objects.filter(pkgname=app).values("icon").first()['icon']
+            print(icon)
             filename = models.package_share_info.objects.filter(token=token).values("filename").first()['filename']
             download_path = models.package_share_info.objects.filter(token=token).values("filepath").first()['filepath']
         return render(request, 'package-share.html', locals())
+    
+    @classmethod
+    @method_decorator(Decorators.check_login)
+    def uploadVersionFileAPI(cls, request):
+        """登录后手工上传"""
+        file = request.FILES.get('file')
+        pkgname = common.requestMthod(request, 'pkgname')
+        version = common.requestMthod(request, 'version')
+        if file and pkgname and version:
+            try:
+                platform = models.package_info.objects.filter(pkgname=pkgname).values("platform").first()['platform']
+                platform_file_dict = {"Android": "apk", "iOS": "ipa"}
+                if os.path.splitext(file.name)[-1][1:] == platform_file_dict[platform]:
+                    version_path_dict = {
+                        "Android": os.path.join(BASE_DIR, "static", "apk", pkgname, version),
+                        "iOS": os.path.join(BASE_DIR, "static", "ipa", pkgname, version)
+                    }
+                    if not os.path.exists(version_path_dict[platform]):
+                        os.mkdir(version_path_dict[platform])
+                    file_path_dict = {
+                        "Android": os.path.join(BASE_DIR, "static", "apk", pkgname, version, file.name),
+                        "iOS": os.path.join(BASE_DIR, "static", "ipa", pkgname, version, file.name)
+                    }
+                    if not os.path.exists(file_path_dict[platform]):
+                        download_path = '/'.join(['http:/', request.META['HTTP_HOST'], 'static',
+                        platform_file_dict[platform], pkgname, version, file.name])
+                        common.uploadFile(file_obj=file, file_path=file_path_dict[platform])
+                        models.package_list(pkgname=pkgname,
+                        version=version,
+                        platform=platform,
+                        filename=file.name,
+                        filepath=download_path).save()
+                        versions = models.package_version_list.objects.filter(pkgname=pkgname, version=version)
+                        if not versions:
+                            models.package_version_list(pkgname=pkgname, version=version).save()
+                            models.package_info.objects.filter(pkgname=pkgname).update(newest_version=version)
+                        models.package_log(username=version, pkgname=pkgname, version=version, action=f'上传了文件{file.name}').save()
+                        result = {'status': 1, 'msg': 'success', 'download_path': download_path}
+                    else:
+                        result = {'status': 0, 'msg': 'filename existed'}
+                else:
+                    result = {'status': 0, 'msg': 'file type is not {}'.format(platform_file_dict[platform])}
+            except Exception as e:
+                result = {'status': 0, 'msg': str(e)}
+                traceback.print_exc()
+        else:
+            result = {'status': 0, 'msg': 'file or pkgname or version can not be None'}        
+        return HttpResponse(json.dumps(result), content_type="application/json")
 
     @classmethod
     def createVersionFileAPI(cls, request):
+        """通过api上传"""
         file = request.FILES.get('file')
         key = common.requestMthod(request, 'key')
         version = common.requestMthod(request, 'version')
-        build_num = common.requestMthod(request, 'build_num')
-        try:
-            app = models.package_info.objects.filter(key=key).values("pkgname").first()['pkgname']
-            platform = models.package_info.objects.filter(key=key).values("platform").first()['platform']
-            platform_file_dict = {"Android": "apk", "iOS": "ipa"}
-            if os.path.splitext(file.name)[-1][1:] == platform_file_dict[platform]:
-                version_path_dict = {
-                    "Android": os.path.join(BASE_DIR, "static", "apk", app, version),
-                    "iOS": os.path.join(BASE_DIR, "static", "ipa", app, version)
-                }
-                if not os.path.exists(version_path_dict[platform]):
-                    os.mkdir(version_path_dict[platform])
-                file_path_dict = {
-                    "Android": os.path.join(BASE_DIR, "static", "apk", app, version, file.name),
-                    "iOS": os.path.join(BASE_DIR, "static", "ipa", app, version, file.name)
-                }
-                if not os.path.exists(file_path_dict[platform]):
-                    download_path = '/'.join(['http:/', request.META['HTTP_HOST'], 'static',
-                                            platform_file_dict[platform], app, version, file.name])
-                    common.uploadFile(file_obj=file, file_path=file_path_dict[platform])
-                    models.package_list(pkgname=app,
-                                        version=version,
-                                        platform=platform,
-                                        build_num=build_num,
-                                        filename=file.name,
-                                        filepath=download_path).save()
-                    versions = models.package_version_list.objects.filter(pkgname=app, version=version)
-                    if not versions:
-                        models.package_version_list(pkgname=app, version=version).save()
-                        models.package_info.objects.filter(pkgname=app).update(newest_version=version)
-                    models.package_log(username=version, pkgname=app, version=version, action=f'上传了文件{file.name}').save()
-                    result = {'status': 1, 'msg': 'success', 'download_path': download_path}
+        if file and key and version:
+            try:
+                app = models.package_info.objects.filter(key=key).values("pkgname").first()['pkgname']
+                platform = models.package_info.objects.filter(key=key).values("platform").first()['platform']
+                platform_file_dict = {"Android": "apk", "iOS": "ipa"}
+                if os.path.splitext(file.name)[-1][1:] == platform_file_dict[platform]:
+                    version_path_dict = {
+                        "Android": os.path.join(BASE_DIR, "static", "apk", app, version),
+                        "iOS": os.path.join(BASE_DIR, "static", "ipa", app, version)
+                    }
+                    if not os.path.exists(version_path_dict[platform]):
+                        os.mkdir(version_path_dict[platform])
+                    file_path_dict = {
+                        "Android": os.path.join(BASE_DIR, "static", "apk", app, version, file.name),
+                        "iOS": os.path.join(BASE_DIR, "static", "ipa", app, version, file.name)
+                    }
+                    if not os.path.exists(file_path_dict[platform]):
+                        download_path = '/'.join(['http:/', request.META['HTTP_HOST'], 'static',
+                        platform_file_dict[platform], app, version, file.name])
+                        common.uploadFile(file_obj=file, file_path=file_path_dict[platform])
+                        models.package_list(pkgname=app,
+                        version=version,
+                        platform=platform,
+                        filename=file.name,
+                        filepath=download_path).save()
+                        versions = models.package_version_list.objects.filter(pkgname=app, version=version)
+                        if not versions:
+                            models.package_version_list(pkgname=app, version=version).save()
+                            models.package_info.objects.filter(pkgname=app).update(newest_version=version)
+                        models.package_log(username=version, pkgname=app, version=version, action=f'上传了文件{file.name}').save()
+                        result = {'status': 1, 'msg': 'success', 'download_path': download_path}
+                    else:
+                        result = {'status': 0, 'msg': 'filename existed'}
                 else:
-                    result = {'status': 0, 'msg': 'filename existed'}
-            else:
-                result = {'status': 0, 'msg': 'file type is not {}'.format(platform_file_dict[platform])}
-        except Exception as e:
-            result = {'status': 0, 'msg': str(e)}
-            traceback.print_exc()
+                    result = {'status': 0, 'msg': 'file type is not {}'.format(platform_file_dict[platform])}
+            except Exception as e:
+                result = {'status': 0, 'msg': str(e)}
+                traceback.print_exc()
+        else:
+            result = {'status': 0, 'msg': 'file or key or version can not be None'}        
         return HttpResponse(json.dumps(result), content_type="application/json")
 
     @classmethod
@@ -390,7 +445,10 @@ class Manage:
             if version_nums == 0:
                 models.package_version_list.objects.filter(pkgname=pkgname, version=old_version).update(version=new_version)
                 models.package_list.objects.filter(pkgname=pkgname, version=old_version).update(version=new_version)
-                models.package_log(username=username, pkgname=pkgname, version=old_version, action=f'{old_version}修改为{new_version}').save()
+                models.package_log(username=username, 
+                pkgname=pkgname, 
+                version=old_version, 
+                action=f'{old_version}修改为{new_version}').save()
                 result = {'status': 1, 'msg': 'edit version success'}
             else:
                 result = {'status': 0, 'msg': 'version existed'}

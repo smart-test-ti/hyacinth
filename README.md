@@ -21,6 +21,8 @@ Python 3.6+
 ```bash
 macos/linux : sh initialize.sh
 windows : ./initialize.bat
+
+注意：执行了数据库就会初始化，以前的信息就会清除
 ```
 ## 部署
 #### uWSGI
@@ -30,7 +32,7 @@ uwsgi --ini uwsgi.ini
 ```
 #### nohup
 ```bash
-nohup python manage.py runserver 0.0.0.0:60006 >run.log 2>&1 &
+nohup python manage.py runserver ip:60006 >run.log 2>&1 &
 ```
 
 ## 本地运行
